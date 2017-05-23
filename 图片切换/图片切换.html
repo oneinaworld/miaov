@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片切换</title>
+	<style>
+		/*button如何居中*/
+\
+		#text{
+			margin: 0 auto;
+			text-align: center;
+		}
+		#box{
+			margin: 0 auto;
+			width: 500px;
+			height: 500px;
+			border: 10px solid #808080;
+			position: relative;
+		}
+		#left,#right{
+			position: absolute;
+			width: 50px;
+			height: 50px;
+			text-align: center;
+			vertical-align: middle;
+			font-size: 2em;
+			line-height: 45px;
+			color: #fff;
+			background: #000;
+			filter: alpha(opacity:60);
+			opacity: 0.6;
+		}
+		#left:hover,#right:hover{
+			filter: alpha(opacity:70);
+			opacity: 0.7;
+		}
+		#left{
+			top: 225px;
+			left: 10px;
+		}
+		#right{
+			top:225px;
+			right: 10px;
+		}
+		#top{
+			width: 100%;
+			height: 30px;
+			position: absolute;
+			top:0;
+			left: 0;
+			background: black;
+			text-align: center;
+			filter: alpha(opacity:80);
+			opacity: 0.8;
+			color: #fff;
+			line-height: 25px;
+		}
+		#bottom{
+			width: 100%;
+			height: 30px;
+			text-align: center;
+			position: absolute;
+			bottom:0;
+			left: 0;
+			background: black;
+			filter: alpha(opacity:80);
+			opacity: 0.8;
+			color: #fff;
+			line-height: 25px;
+		}
+		img{
+			width: 500px;
+			height: 500px;
+		}
+	</style>
+	<script>
+		window.onload=function(){
+			// 图片切换，先定义元素
+			var oBtn1=document.getElementById('btn1');
+			var oBtn2=document.getElementById('btn2');
+			var oBox=document.getElementById('box');
+			var oLeft=document.getElementById('left');
+			var oRight=document.getElementById('right');
+			var oTop=document.getElementById('top');
+			var oBottom=document.getElementById('bottom');
+			var oText=document.getElementById('text');
+			var oImg=document.getElementById('img');
+			// 定义所需文字和图片组成的数组
+			var aText=['图片可从最后一张跳转到第一张循环切换','图片只能从第一张到最后一张切换'];
+			var aPic=['img/1.jpg','img/2.jpg','img/3.jpg','img/4.jpg'];
+			var aBottom=['美女','帅哥','美女','美女'];
+			// 初始化，在点击前先定义初始的图片、文字
+			var num=0;
+			function change(){
+				// 填充图片
+				oImg.src=aPic[num];
+				// 填充文字
+				oBottom.innerHTML=aBottom[num];
+				oTop.innerHTML=num+1+'/'+aPic.length;
+			}
+			change();
+			// 点击按钮一，循环切换
+			oBtn1.onclick=function(){
+				oText.innerHTML=aText[0];
+				oRight.onclick=function(){
+					num++;
+					if(num==aPic.length){
+						num=0;
+					}
+					change();
+				}
+				oLeft.onclick=function(){
+					num--;
+					if(num==-1){
+						num=aPic.length-1;
+					}
+					change();
+				}
+			}
+			// 点击按钮二，顺序切换
+			oBtn2.onclick=function(){
+				oText.innerHTML=aText[1];
+				oRight.onclick=function(){
+					num++;
+					if(num==aPic.length){
+						num=aPic.length-1;
+					}
+					change();
+				}
+				oLeft.onclick=function(){
+					num--;
+					if(num==-1){
+						num=0;
+					}
+					change();
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+<div>
+	<button id="btn1">循环切换</button>
+	<button id="btn2">顺序切换</button>
+	<p id="text"></p>
+	<div id="box">
+		<div id="top"></div>
+		<!-- 这里还是用a比较好，为IE6想 -->
+		<a id="left"><</a>
+		<a id="right">></a>
+		<div id="bottom"></div>
+		<!-- 第一次写少了一个img标签。。。图片都不知道放哪里。。。 -->
+		<img src="img/1.jpg" alt="" id="img">
+	</div>
+</div>
+</body>
+</html>
