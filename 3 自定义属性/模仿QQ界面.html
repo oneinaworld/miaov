@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>模仿QQ界面</title>
+    <style>
+    ul,
+    li,
+    h2 {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    
+    #list {
+        width: 200px;
+        margin: 0 auto;
+        border: 3px solid #229;
+    }
+    
+    h2 {
+        font-size: 20px;
+        background: url(img/ico1.gif) no-repeat left lightblue;
+        padding: 5px 0 5px 15px;
+    }
+    
+    .lis li {
+        padding: 5px 0 5px 15px;
+        border-bottom: 1px solid lightgray;
+    }
+    
+    .lis ul {
+        display: none;
+    }
+    
+    .active {
+        background: url(img/ico2.gif) no-repeat left blue;
+    }
+    
+    .lis ul .hover {
+        background: lightgreen;
+    }
+    </style>
+    <script>
+    /*需求有1、点击我的好友变色并且收缩展开
+        		 2、点击一变色，点击其它还原 
+        		 3、点击一栏，其它栏收缩
+        		 4、点击一变色，再点击还原*/
+    window.onload = function() {
+        // 先找元素
+        var oUl = document.getElementById('list');
+        var aH2 = oUl.getElementsByTagName('h2');
+        var aUl = oUl.getElementsByTagName('ul');
+        var aLi = null;
+        var arrLi = [];
+        // 需求1
+        for (var i = 0; i < aH2.length; i++) {
+            aH2[i].index = i; //为什么要加index，而不能直接用i？
+            aH2[i].onclick = function() {
+                if (this.className == '') {
+                    aUl[this.index].style.display = 'block';
+                    this.className = 'active';
+                    // 需求3
+                    for (var i = 0; i < aUl.length; i++) {
+                    	if(i!==this.index){
+                    	aUl[i].style.display='none';
+                    	aUl[i].className='';
+                    }
+                    }
+                } else {
+                    aUl[this.index].style.display = 'none';
+                    this.className = '';
+                }
+            }
+        }
+
+        for (var i = 0; i < aUl.length; i++) {
+            aLi = aUl[i].getElementsByTagName('li'); //找到aUl下的所有li
+            for (var j = 0; j < aLi.length; j++) {
+                arrLi.push(aLi[j]); //每个li都先存入arrLi数组
+            }
+        }
+        for (var i = 0; i < arrLi.length; i++) {
+            arrLi[i].onclick = function() {
+            	// 需求4
+                if (this.className == '') {
+                	// 需求2
+                    for (var i = 0; i < arrLi.length; i++) {
+                        arrLi[i].className = '';
+                    }
+                    this.className = 'hover';
+                } else {
+                    this.className = '';
+                }
+            }
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <ul id="list">
+        <li class="lis">
+            <h2>我的好友</h2>
+            <ul>
+                <li>一</li>
+                <li>二</li>
+                <li>三</li>
+                <li>四</li>
+            </ul>
+        </li>
+        <li class="lis">
+            <h2>我的同事</h2>
+            <ul>
+                <li>五</li>
+                <li>六</li>
+                <li>七</li>
+                <li>八</li>
+            </ul>
+        </li>
+        <li class="lis">
+            <h2>黑名单</h2>
+            <ul>
+                <li>九</li>
+                <li>十</li>
+            </ul>
+        </li>
+    </ul>
+</body>
+
+</html>
