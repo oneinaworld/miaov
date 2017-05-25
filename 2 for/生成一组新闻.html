@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>生成一组新闻</title>
+    <script>
+    window.onload = function() {
+        var arr = ['潮莞高速“别车175秒”涉事车主被拘，已被作为刑案调查', '端午节内地游客争夺战：香港酒店降价13%、大阪降一成', '两名中国人在巴基斯坦西南部俾路支省被绑架', '警察资助杀人犯女儿学习生活 3年累计达3万余元', '654名毕业生签约后承诺薪酬骤降 涉事国企已道歉'];
+        var oBtn = document.getElementById('btn');
+        var oUl = document.getElementById('list');
+        var onOff = true;
+        oBtn.onclick = function() {
+            if (onOff) {
+                for (var i = 0; i < arr.length; i++) {
+                    oUl.innerHTML += '<li>' + arr[i] + '</li>';
+                }
+                onOff = false;
+            }
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <button id="btn">自动生成5条新闻</button>
+    <ul id="list">
+    </ul>
+</body>
+
+</html>
