@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    	div{width: 10px;height: 10px;left:0;top:0;background: red;position: absolute;}
+    </style>
+    <script>
+    window.onload = function() {
+        var oBtn1 = document.getElementById('btn1');
+        var oUl=document.getElementById('ul');
+        var oBtn2=document.getElementById('btn2');
+
+        oBtn1.onclick = function() {
+            oUl.innerHTML=''; 
+            for (var i = 0; i < 100; i++) {
+                oUl.innerHTML += '<li></li>'
+            }
+        }
+        
+        oBtn2.onclick=function(){
+        	var aDiv=document.getElementsByTagName('div');
+            oUl.innerHTML='';
+        	for(var i=0;i<20;i++){
+        		oUl.innerHTML+='<div></div>';
+        	}
+        	for(var i=0;i<aDiv.length/2;i++){
+        		aDiv[i].style.left=50+i*10+'px';
+        		aDiv[i].style.top=50+i*10+'px';
+        	}
+            var j=1;
+            for(var i=aDiv.length/2;i<aDiv.length;i++){
+                aDiv[i].style.left=50+i*10+'px';
+                aDiv[i].style.top=50+(i-j)*10+'px';
+                j+=2;
+            }
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <button id="btn1">自动生成100个LI</button>
+    <button id="btn2">自动生成V字型</button>
+    <ul id="ul"></ul>
+</body>
+
+</html>
