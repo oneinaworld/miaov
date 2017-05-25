@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>模拟手机短信发送</title>
+	<style>
+		#box{width: 200px;height: 400px;background: lightgray;border:2px solid black;overflow: scroll;}
+		#select{display: inline-block;width: 50px;height: 20px;}
+		#input{width: 100px;height: 15px;display: inline-block;}
+		#btn{display: inline-block;width: 35px;height: 20px;margin-left: 2px;font-size: 0.5em;}
+		.left{background: gray;}
+		.left>div{/*float: left*/;margin-right: 5px;width: 50px;display: inline-block;}
+		.left p{display: inline-block;}
+		.right{background: green;color: white;}
+		.right>div{float: right;margin-left: 5px;width: 50px;display: inline-block;}
+		.right p{display: inline-block;float: right;}
+	</style>
+	<script>
+		window.onload=function(){
+			var oBox=document.getElementById('box');
+			var oInput=document.getElementById('input');
+			var oBtn=document.getElementById('btn');
+			var oSelect=document.getElementById('select');
+			var oContent=document.getElementById('content');
+			var oName=document.getElementById('name');
+			var oWords=document.getElementById('words');
+			oBtn.onclick=function(){
+				// 获取input的内容，放到box最前
+				// 无法实现对话框的样式！
+				// 大兵说话，左对齐；高帅富说话，右对齐
+				// 参考http://www.liangpeng.me/186.html
+				if(oInput.value==''){alert('输入点什么吧！')}
+				else if(oSelect.value=='大兵'){
+					oBox.innerHTML='<div><div>大兵</div><p>'+oInput.value+'</p></div>'+oBox.innerHTML;
+					oBox.firstChild.className='left';
+					oInput.value='';
+				}else{
+					oBox.innerHTML='<div><div>高帅富</div><p>'+oInput.value+'</p></div>'+oBox.innerHTML;
+					oBox.firstChild.className='right';
+					oInput.value='';
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	<div id="box"></div>
+	<select name="" id="select">
+		<option value="大兵">大兵</option>
+		<option value="高帅富">高帅富</option>
+	</select>
+	<input type="text" id="input"><button id="btn">发送</button>
+</body>
+</html>
