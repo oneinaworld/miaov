@@ -32,7 +32,9 @@
 			var arrImg1=['img/1.png','img/2.png','img/3.png','img/4.png']
 			var arrImg2=['img/1.png','img/2.png','img/3.png']
 
+
 			// 初始化
+			// 精简代码时发现，二组代码都基本相同，仅1和2不同。但有抽象的必要吗？
 			oText1.innerHTML='第一组第'+(num1+1)+'张';
 			oNum1.innerHTML=num1+1+'/'+arrImg1.length;
 			oImg1.src=arrImg1[num1];
@@ -41,10 +43,9 @@
 			oImg2.src=arrImg2[num2];
 
 
-
 			//需求1
 			oBtn2.onclick=function(){	
-			//这里因为要共用一个num，而二组的图片数不相等。不能用同一个num。要用2个变量。
+			//这里因为要用一个num，而二组的图片数不相等。不能用同一个num。要用2个变量。
 				num1++;
 				num2++;
 				if(num1==arrImg1.length){num1=0;}
