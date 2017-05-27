@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>带缩略图的图片切换</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    
+    #container {
+        width: 800px;
+        height: 600px;
+        position: relative;
+        margin: 10px auto;
+        background: black;
+        border: 1px solid red;
+    }
+    
+    #img {
+        width: 700px;
+        height: 500px;
+        margin: 30px auto;
+        display: block;
+    }
+    
+    #btn1,
+    #btn2 {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        top: 230px;
+        border-radius: 100%;
+        font-size: 200%;
+        font-weight: 800;
+        line-height: 30px;
+        border: none;
+        background: #FFA042;
+        color: #fff;
+        filter: alpha(opacity=50);
+        opacity: 0.5;
+    }
+    
+    #btn1:hover,
+    #btn2:hover {
+        filter: alpha(opacity=100);
+        opacity: 1;
+    }
+    
+    #btn1 {
+        left: 70px;
+    }
+    
+    #btn2 {
+        left: 680px;
+    }
+    
+    #list {
+        display: block;
+        margin: 10px auto;
+        width: 110px;
+    }
+    
+    #list li {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        background: grey;
+        position: relative;
+    }
+    
+    #list li:hover {
+        cursor: pointer;
+    }
+    
+    #list li .active {
+        background: #FFA042
+    }
+    
+    .thumb {
+        display: none;
+        width: 190px;
+        height: 140px;
+        position: absolute;
+        left: -90px;
+        top: -155px;
+        border: 5px solid #fff;
+    }
+    </style>
+    <script>
+    /* 需求1、点button时变图片,hover时变透明度。
+    			解法：透明度，用js改。
+    		2、四个点hover时，出现缩略图，鼠标变。点击时变图片，变色。
+    		    解法：每个点建立了一个缩略图框。*/
+    window.onload = function() {
+        //找元素
+        var oImg = document.getElementById('img');
+        var aBtn = document.getElementsByTagName('button');
+        var oBtn1 = document.getElementById('btn1');
+        var oBtn2 = document.getElementById('btn2');
+        var oUl = document.getElementById('list');
+        var aLi = oUl.getElementsByTagName('li');
+        var aImg = oUl.getElementsByTagName('img');
+        var arrImg = ['img/1.png', 'img/2.png', 'img/3.png', 'img/4.png']; //放图片资源的数组
+        var num = 0; //计数器
+
+        //初始化
+        oImg.src = arrImg[num];
+
+        //需求1
+        oBtn1.onclick = function() {
+            num--;
+            if (num == -1) {
+                num = arrImg.length - 1;
+            }
+            oImg.src = arrImg[num];
+        }
+        oBtn2.onclick = function() {
+            num++;
+            if (num == arrImg.length) {
+                num = 0;
+            }
+            oImg.src = arrImg[num];
+        }
+
+        //需求2	
+        for (var i = 0; i < aLi.length; i++) {
+            aLi[i].index = i;
+            aImg[i].index = i;
+            aImg[i].src = arrImg[i];
+            // 变色
+            aLi[i].onmouseover = function() {
+                this.style.background = '#FFA042';
+                aImg[this.index].style.display = 'block';
+            }
+            aLi[i].onmouseout = function() {
+                    this.style.background = 'grey';
+                    aImg[this.index].style.display = 'none';
+                }
+                //变图
+            aLi[i].onclick = function() {
+                oImg.src = arrImg[this.index];
+            }
+        }
+
+    }
+    </script>
+</head>
+
+<body>
+    <div id="container">
+        <img src="" alt="" id="img">
+        <button id="btn1">
+            <</button>
+                <button id="btn2">></button>
+                <ul id="list">
+                    <li><img src="" alt="" class="thumb"></li>
+                    <li><img src="" alt="" class="thumb"></li>
+                    <li><img src="" alt="" class="thumb"></li>
+                    <li><img src="" alt="" class="thumb"></li>
+                </ul>
+    </div>
+</body>
+
+</html>
