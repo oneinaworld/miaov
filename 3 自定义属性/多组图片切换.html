@@ -1,109 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>多组图片切换</title>
-	<style>
-		#container{width: 950px;height: 600px;border: 1px solid lightgray;position: relative;margin: 0 auto;}
-		#btn1,#btn2{border-radius: 10px;width: 80px;height: 20px;margin: 100px 0 0 50px;}
-		#box1, #box2{position: absolute;top: 150px; height: 300px;border: 1px solid lightgray;}
-		#box1{width: 500px;left: 50px;}
-		#box2{width: 300px;left: 600px;}
-		#img1{width: 400px;height: 200px;margin: 50px 50px 0 50px;}
-		#img2{width: 200px;height: 200px;margin: 50px 50px 0 50px;}
-		#text1,#text2{bottom:10px;width: 100%;height: 20px;text-align: center;line-height: 20px;}
-		#num1,#num2{bottom: 10px;left : 0;width: 50px;height: 10px;}
-	</style>
-	<script>
-		/* 需求1、点击 上一组 下一组 2组图片同时更新。说明文字和数字也更新。
-		2、点击图片，更新下一张。*/
-		window.onload=function(){
-			// 找元素
-			var oBtn1=document.getElementById('btn1');
-			var oBtn2=document.getElementById('btn2');
-			var oImg1=document.getElementById('img1');
-			var oImg2=document.getElementById('img2');
-			var oText1=document.getElementById('text1');
-			var oText2=document.getElementById('text2');
-			var oNum1=document.getElementById('num1');
-			var oNum2=document.getElementById('num2');
-			var num1 = 0;
-			var num2 = 0;
-			var arrImg1=['img/1.png','img/2.png','img/3.png','img/4.png']
-			var arrImg2=['img/1.png','img/2.png','img/3.png']
+    <meta charset="UTF-8">
+    <title>多组图片切换</title>
+    <style>
+    #container {
+        width: 950px;
+        height: 600px;
+        border: 1px solid lightgray;
+        position: relative;
+        margin: 0 auto;
+    }
+    
+    #btn1,
+    #btn2 {
+        border-radius: 10px;
+        width: 80px;
+        height: 20px;
+        margin: 100px 0 0 50px;
+    }
+    
+    #box1,
+    #box2 {
+        position: absolute;
+        top: 150px;
+        height: 300px;
+        border: 1px solid lightgray;
+    }
+    
+    #box1 {
+        width: 500px;
+        left: 50px;
+    }
+    
+    #box2 {
+        width: 300px;
+        left: 600px;
+    }
+    
+    #img1 {
+        width: 400px;
+        height: 200px;
+        margin: 50px 50px 0 50px;
+    }
+    
+    #img2 {
+        width: 200px;
+        height: 200px;
+        margin: 50px 50px 0 50px;
+    }
+    
+    #text1,
+    #text2 {
+        bottom: 10px;
+        width: 100%;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+    }
+    
+    #num1,
+    #num2 {
+        bottom: 10px;
+        left: 0;
+        width: 50px;
+        height: 10px;
+    }
+    </style>
+    <script>
+    /* 需求1、点击 上一组 下一组 2组图片同时更新。说明文字和数字也更新。
+    		2、点击图片，更新下一张。*/
+    window.onload = function() {
+        // 找元素
+        var oBtn1 = document.getElementById('btn1');
+        var oBtn2 = document.getElementById('btn2');
+        var oImg1 = document.getElementById('img1');
+        var oImg2 = document.getElementById('img2');
+        var oText1 = document.getElementById('text1');
+        var oText2 = document.getElementById('text2');
+        var oNum1 = document.getElementById('num1');
+        var oNum2 = document.getElementById('num2');
+        var num1 = 0;
+        var num2 = 0;
+        var arrImg1 = ['img/1.png', 'img/2.png', 'img/3.png', 'img/4.png']
+        var arrImg2 = ['img/1.png', 'img/2.png', 'img/3.png']
 
 
-			// 初始化
-			// 精简代码时发现，二组代码都基本相同，仅1和2不同。但有抽象的必要吗？
-			oText1.innerHTML='第一组第'+(num1+1)+'张';
-			oNum1.innerHTML=num1+1+'/'+arrImg1.length;
-			oImg1.src=arrImg1[num1];
-			oText2.innerHTML='第二组第'+(num2+1)+'张';
-			oNum2.innerHTML=num2+1+'/'+arrImg2.length;
-			oImg2.src=arrImg2[num2];
+        // 初始化
+        // 精简代码时发现，二组代码都基本相同，仅1和2不同。但有抽象的必要吗？
+        oText1.innerHTML = '第一组第' + (num1 + 1) + '张';
+        oNum1.innerHTML = num1 + 1 + '/' + arrImg1.length;
+        oImg1.src = arrImg1[num1];
+        oText2.innerHTML = '第二组第' + (num2 + 1) + '张';
+        oNum2.innerHTML = num2 + 1 + '/' + arrImg2.length;
+        oImg2.src = arrImg2[num2];
 
 
-			//需求1
-			oBtn2.onclick=function(){	
-			//这里因为要用一个num，而二组的图片数不相等。不能用同一个num。要用2个变量。
-				num1++;
-				num2++;
-				if(num1==arrImg1.length){num1=0;}
-				oText1.innerHTML='第一组第'+(num1+1)+'张';
-				oNum1.innerHTML=num1+1+'/'+arrImg1.length;
-				oImg1.src=arrImg1[num1];
-				if(num2==arrImg2.length){num2=0;}
-				oText2.innerHTML='第二组第'+(num2+1)+'张';
-				oNum2.innerHTML=num2+1+'/'+arrImg2.length;
-				oImg2.src=arrImg2[num2];		
-			}
-			oBtn1.onclick=function(){	
-				num1--;
-				num2--;
-				if(num1==-1){num1=arrImg1.length-1;}
-				oText1.innerHTML='第一组第'+(num1+1)+'张';
-				oNum1.innerHTML=num1+1+'/'+arrImg1.length;
-				oImg1.src=arrImg1[num1];
-				if(num2==-1){num2=arrImg2.length-1;}
-				oText2.innerHTML='第二组第'+(num2+1)+'张';
-				oNum2.innerHTML=num2+1+'/'+arrImg2.length;
-				oImg2.src=arrImg2[num2];		
-			}
+        //需求1
+        oBtn2.onclick = function() {
+            //这里因为要用一个num，而二组的图片数不相等。不能用同一个num。要用2个变量。
+            num1++;
+            num2++;
+            if (num1 == arrImg1.length) {
+                num1 = 0;
+            }
+            oText1.innerHTML = '第一组第' + (num1 + 1) + '张';
+            oNum1.innerHTML = num1 + 1 + '/' + arrImg1.length;
+            oImg1.src = arrImg1[num1];
+            if (num2 == arrImg2.length) {
+                num2 = 0;
+            }
+            oText2.innerHTML = '第二组第' + (num2 + 1) + '张';
+            oNum2.innerHTML = num2 + 1 + '/' + arrImg2.length;
+            oImg2.src = arrImg2[num2];
+        }
+        oBtn1.onclick = function() {
+            num1--;
+            num2--;
+            if (num1 == -1) {
+                num1 = arrImg1.length - 1;
+            }
+            oText1.innerHTML = '第一组第' + (num1 + 1) + '张';
+            oNum1.innerHTML = num1 + 1 + '/' + arrImg1.length;
+            oImg1.src = arrImg1[num1];
+            if (num2 == -1) {
+                num2 = arrImg2.length - 1;
+            }
+            oText2.innerHTML = '第二组第' + (num2 + 1) + '张';
+            oNum2.innerHTML = num2 + 1 + '/' + arrImg2.length;
+            oImg2.src = arrImg2[num2];
+        }
 
 
-			//需求2
-			oImg1.onclick=function(){
-				num1++;
-				if(num1==arrImg1.length){num1=0;}
-				oText1.innerHTML='第一组第'+(num1+1)+'张';
-				oNum1.innerHTML=num1+1+'/'+arrImg1.length;
-				oImg1.src=arrImg1[num1];
-			}
-			oImg2.onclick=function(){
-				num2++;
-				if(num2==arrImg2.length){num2=0;}
-				oText2.innerHTML='第二组第'+(num2+1)+'张';
-				oNum2.innerHTML=num2+1+'/'+arrImg2.length;
-				oImg2.src=arrImg2[num2];
-			}
-		}
-	</script>
+        //需求2
+        oImg1.onclick = function() {
+            num1++;
+            if (num1 == arrImg1.length) {
+                num1 = 0;
+            }
+            oText1.innerHTML = '第一组第' + (num1 + 1) + '张';
+            oNum1.innerHTML = num1 + 1 + '/' + arrImg1.length;
+            oImg1.src = arrImg1[num1];
+        }
+        oImg2.onclick = function() {
+            num2++;
+            if (num2 == arrImg2.length) {
+                num2 = 0;
+            }
+            oText2.innerHTML = '第二组第' + (num2 + 1) + '张';
+            oNum2.innerHTML = num2 + 1 + '/' + arrImg2.length;
+            oImg2.src = arrImg2[num2];
+        }
+    }
+    </script>
 </head>
-<body>
-<div id="container">
-    <button id="btn1">上一组</button>
-    <button id="btn2">下一组</button>
-    <div id="box1">
-        <img src="" alt="" id="img1">
-        <div id="text1"></div>
-        <div id="num1"></div>
-    </div>
-    <div id="box2">
-        <img src="" alt="" id="img2">
-        <div id="text2"></div>
-        <div id="num2"></div>
-    </div>
-</div>
 
+<body>
+    <div id="container">
+        <button id="btn1">上一组</button>
+        <button id="btn2">下一组</button>
+        <div id="box1">
+            <img src="" alt="" id="img1">
+            <div id="text1"></div>
+            <div id="num1"></div>
+        </div>
+        <div id="box2">
+            <img src="" alt="" id="img2">
+            <div id="text2"></div>
+            <div id="num2"></div>
+        </div>
+    </div>
 </body>
+
 </html>
