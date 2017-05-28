@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>无标题文档</title>
+    <script>
+    window.onload = function() {
+        
+        var oBtn = document.getElementsByTagName('input')[1];
+        oBtn.onclick = function() {
+        	// 在这里stuck了很久！一直只弹出‘请输入’！后来对比别人的代码，才发现了，text只能在函数内定义！否则text一直是空的！
+        	var text = document.getElementsByTagName('input')[0].value;
+            if (text == '') {
+                alert('请输入！')
+            } else {
+                if (isNaN(text)) {
+                    alert('输入的不是数字！')
+                } else {
+                    if (text.charAt(0) == 0) {
+                        alert('第一个数不能为0！')
+                    } else {
+                        if (parseInt(text) !== parseFloat(text)) {
+                            alert('不能输入小数！')
+                        } else {
+                            if (text.length <= 5 || text.length >= 10) {
+                                alert('位数必须在5-10位之间！')
+                            } else {
+                                alert('QQ号为'+ text);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
+            document.getElementsByTagName('input')[0].value = '';  // 这里不能直接赋予text=''，为什么？
+        }
+                // 这是别人的代码  
+                // var aInput = document.getElementsByTagName('input');
+                // aInput[1].onclick = function() {
+                //         var sText =  aInput[0].value ;
+                //         if(sText == '') {
+                //                 alert("亲，请输入内容哦~~");
+                //         }else if( isNaN(sText) ){
+                //                 alert("亲，请输入数字哦~~");
+                //         }else if( sText.charAt(0) == 0 ) {
+                //                 alert("亲，数字前不能有0哦~~");
+                //         }else if(sText.length < 5 || sText.length > 12) {
+                //                 alert("亲，输入的数字必须在5位以上、12位以内哦~~");
+                //         }else{
+                //                 alert('亲，恭喜你验证成功哦');
+                //                 return;
+                //         }
+                //         aInput[0].value = "";
+                // }
+
+//                 function trim(str){
+//                         return str.replace(/(^\s*)|(\s*$)/g, "");
+// 　　             }
+
+    }
+    </script>
+</head>
+
+<body>
+    请输入QQ号码：
+    <input type="text" />
+    <input type="button" value="判断" />
+    <br /> 1、有没有输入
+    <br /> 2、输入的是不是数字
+    <br /> 3、不能有0在前面
+    <br /> 4、不能是小数
+    <br /> 5、输入的数字必须在5位以上、10位以内
+    <br />
+</body>
+
+</html>
