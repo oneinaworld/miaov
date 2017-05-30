@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		ol,li,p,button{margin: 0;padding: 0;font-size: 10px;}
+		#container{width: 200px;margin: 0 auto;border: 1px solid gray;}
+		#container li {width: 200px;position: relative;padding:5px;overflow: auto;background: lightgreen;border-bottom: 1px solid grey;}
+		/*#container span{position: absolute;left: 5px;top: 5px;border: 1px solid gray;}*/
+		#container p{position: absolute;border: 1px solid gray;display: inline-block;/*margin-left: 5px;*/}
+		/*#container div{width: 190px;margin-left: 15px;display: none;}*/
+		#container img{width: 70px;height: 50px;display: none;}
+		/*#container div p{width: 80px;height: 20px;position: relative; top:-45px;left: 75px;}*/
+		#container button{width: 30px;height: 20px;position: absolute;right: 15px;top: 25px;}
+		.active{position: absolute;top: 5px;right: 5px;}
+	</style>
+	<script>
+		/* 需求1、自动填充span
+		2. 鼠标hover时li变大，变白
+
+		css有点难。
+		*/
+		window.onload=function(){
+			var oOl = document.getElementById('container');
+			var aLi = oOl.getElementsByTagName('li');
+			var aImg = oOl.getElementsByTagName('img');
+			var aP = oOl.getElementsByTagName('p');
+			for (var i = 0; i < aLi.length; i++) {
+				aLi[i].onmouseover=function(){
+					for (var i = 0; i < aImg.length; i++) {
+						aImg[i].style.display='none';
+						aP[i].className='';
+					}
+					this.getElementsByTagName('img')[0].style.display='inline-block';
+					this.getElementsByTagName('p')[0].className='active';
+				}
+			}
+
+			for (var i = 0; i < aLi.length; i++) {
+				aLi[i].getElementsByTagName('span')[0].innerHTML=i+1+'.';
+			}
+
+		}
+
+	</script>
+</head>
+<body>
+	<ol id="container">
+		<li>
+			<span></span>
+			<p>说明说明说明说明说明说</p>
+			<!-- <div> -->
+				<!-- <span>1.</span> -->
+				<img src="" alt="图片">
+				<!-- <p>说明说明说明说明说</p> -->
+				<button>播放</button>
+			<!-- </div> -->
+		</li>
+		<li>
+			<span></span>
+			<p>说明说明说明说明说明说</p>
+			<!-- <div> -->
+				<!-- <span>1.</span> -->
+				<img src="" alt="图片">
+				<!-- <p>说明说明说明说明说</p> -->
+				<button>播放</button>
+			<!-- </div> -->
+		</li>
+		<li>
+			<span></span>
+			<p>说明说明说明说明说明说</p>
+			<!-- <div> -->
+				<!-- <span>1.</span> -->
+				<img src="" alt="图片">
+				<!-- <p>说明说明说明说明说</p> -->
+				<button>播放</button>
+			<!-- </div> -->
+		</li>
+		<li>
+			<span></span>
+			<p>说明说明说明说明说明说</p>
+			<!-- <div> -->
+				<!-- <span>1.</span> -->
+				<img src="" alt="图片">
+				<!-- <p>说明说明说明说明说</p> -->
+				<button>播放</button>
+			<!-- </div> -->
+		</li>
+		<li>
+			<span></span>
+			<p>说明说明说明说明说明说</p>
+			<!-- <div> -->
+				<!-- <span>1.</span> -->
+				<img src="" alt="图片">
+				<!-- <p>说明说明说明说明说</p> -->
+				<button>播放</button>
+			<!-- </div> -->
+		</li>
+	</ol>
+</body>
+</html>
