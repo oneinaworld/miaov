@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		ul,li, p{margin: 0;padding: 0; list-style: none;}
+		#container{width: 400px;}
+		#container>p{background: #0a0; color: white;padding: 10px 0 10px 30px;height: 15px;}
+		#container>li{background: white; height:20px;padding: 10px 0 10px 30px; border:1px solid #0a0;}
+		#container>li p{display: inline-block;}
+		#container>li>:nth-child(2){display: none;}
+	</style>
+	<script>
+		window.onload=function(){
+			var oUl=document.getElementById('container');
+			var aLi = oUl.getElementsByTagName('li');
+
+			for (var i = 0; i < aLi.length; i++) {
+				fnEdit(aLi[i]);
+			}
+
+			function fnEdit( li ){
+				var aP = li.getElementsByTagName('p');
+				var aDiv = li.getElementsByTagName('div');
+				var aBtn = li.getElementsByTagName('button');
+				var oInp = li.getElementsByTagName('input')[0];
+				
+
+				aBtn[0].onclick = function(){
+					var text = aP[0].innerHTML; // 在这里声明变量可以让text跟随输入变
+					oInp.value = text;
+					aDiv[0].style.display = 'none';
+					aDiv[1].style.display = 'block';
+				}
+
+				aBtn[1].onclick = function(){
+					aP[0].innerHTML = oInp.value;
+					aDiv[0].style.display = 'block';
+					aDiv[1].style.display = 'none';
+				}
+
+				aBtn[2].onclick = function(){
+					aDiv[0].style.display = 'block';
+					aDiv[1].style.display = 'none';
+				}
+
+			}
+
+		}
+	</script>
+</head>
+<body>
+	<ul id="container">
+    <p>分类名称</p>
+    <li>
+        <div>
+            <p>开课啦！</p>
+            <button>编辑</button>
+        </div>
+        <div>
+            <input type="text">
+            <button>保存</button>
+            <button>取消</button>
+        </div>
+    </li>
+</ul>
+
+
+</body>
+</html>
