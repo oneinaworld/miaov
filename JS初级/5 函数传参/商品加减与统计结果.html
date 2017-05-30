@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>无标题文档</title>
+    <script>
+    /* 需求1、把商品合计
+            2、找出最贵单价*/
+    window.onload = function() {
+        var oUl = document.getElementById('list');
+        var aLi = oUl.getElementsByTagName('li');
+        var oSum = document.getElementById('sum');
+        var oCost = document.getElementById('cost');
+        var oRich = document.getElementById('richest');
+        // var arrSum = [];
+        // var arrCost = [];
+
+        var cost = 0;
+
+        // fnCount ( aLi[0] );
+        for (var i = 0; i < aLi.length; i++) {
+            fnCount(aLi[i]);
+        }
+
+        function fnCount(li) {
+            var aBtn = li.getElementsByTagName('input');
+            var oStrong = li.getElementsByTagName('strong')[0];
+            var oEm = li.getElementsByTagName('em')[0];
+            var oSpan = li.getElementsByTagName('span')[0];
+            var n = parseInt(oStrong.innerHTML); // '0' => 0
+            var price = parseFloat(oEm.innerHTML); // 12.5
+
+
+            aBtn[0].onclick = function() {
+                if (n > 0) {
+                    n--;
+                    oSum.innerHTML--;   // 这里，要把这两条放入条件语句中，不然n<0还会减。不需控制oSum，只需控制n。
+                    cost -= parseFloat(oEm.innerHTML);
+                }
+                oStrong.innerHTML = n;
+                oSpan.innerHTML = n * price + '元';
+
+                // if (parseInt(oSum.innerHTML) > 0) {
+
+                // }
+
+                
+
+                // cost = 0;
+
+                oCost.innerHTML = cost;
+
+
+                // arrSum.pop(n) ;
+                // arrCost.pop(oSpan.innerHTML) ;
+
+            };
+            aBtn[1].onclick = function() {
+                n++;
+                oStrong.innerHTML = n;
+                oSpan.innerHTML = n * price + '元';
+                oSum.innerHTML++;
+                cost += parseFloat(oEm.innerHTML); // 这里，一直无法把商品总价写入。最后还是用了一个中间变量，再写入oCost.innerHTML。
+                oCost.innerHTML = cost;
+                // arrSum.push(n) ;
+                // arrCost.push(oSpan.innerHTML) ;
+
+            };
+
+            function getRichest() {
+                var arrPrice = [];
+                arrPrice.push(oEm);
+                arrPrice.sort();
+                oRich.innerHTML = arrPrice[arrPrice.length - 1].innerHTML;
+            }
+            getRichest();
+        }
+
+
+    };
+    </script>
+</head>
+
+<body>
+    <ul id="list">
+        <li>
+            <input type="button" value="-" />
+            <strong>0</strong>
+            <input type="button" value="+" /> 单价：
+            <em>12.5元</em> 小计：
+            <span>0元</span>
+        </li>
+        <li>
+            <input type="button" value="-" />
+            <strong>0</strong>
+            <input type="button" value="+" /> 单价：
+            <em>10.5元</em> 小计：
+            <span>0元</span>
+        </li>
+        <li>
+            <input type="button" value="-" />
+            <strong>0</strong>
+            <input type="button" value="+" /> 单价：
+            <em>8.5元</em> 小计：
+            <span>0元</span>
+        </li>
+        <li>
+            <input type="button" value="-" />
+            <strong>0</strong>
+            <input type="button" value="+" /> 单价：
+            <em>8元</em> 小计：
+            <span>0元</span>
+        </li>
+        <li>
+            <input type="button" value="-" />
+            <strong>0</strong>
+            <input type="button" value="+" /> 单价：
+            <em>14.5元</em> 小计：
+            <span>0元</span>
+        </li>
+    </ul>
+    <p>
+        商品合计共：<span id="sum">0</span>件，共花费了：<span id="cost">0</span>元
+        <br /> 其中最贵的商品单价是：
+        <span id="richest">0</span>
+    </p>
+</body>
+
+</html>
