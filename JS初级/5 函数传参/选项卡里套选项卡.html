@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{padding: 0;margin: 0;list-style: none;}
+	#container {background: #EAE7E6;border: 1px solid gray;position: relative;width: 700px;height: 300px;margin: 50px auto;}
+	#list li{width: 100px;height: 75px;text-align: center;line-height: 75px;}
+	#img{width: 600px;height: 300px;}
+	#a{position: absolute;right: 0;top: 0;}
+	#indicator {width: 600px;height: 20px;position: absolute;right: 0;bottom: 0;}
+	#indicator li{float: left; color: #fff;text-align: center;margin-left: 3px;background: rgba(0,0,0,0.5);}
+	#indicator li.hover{background: pink;}
+	</style>
+	<script>
+		/* 需求1、左列表点击时，变img和右下ul内容
+		2. 右下ul里的li hover时，变img
+		3. 左ul和img都可点击
+		*/
+		window.onload=function(){
+			var oList = document.getElementById('list');
+			var aLi = oList.getElementsByTagName('li');
+			var oLi = document.getElementById('li');
+			var oImg = document.getElementById('img');
+			var oA = document.getElementById('a');
+			var oIndicator = document.getElementById('indicator');
+			var arrImg = [['img/1.png', 'img/2.png', 'img/3.png'], ['img/1.png', 'img/2.png', 'img/3.png', 'img/4.png'], ['img/1.png', 'img/2.png', 'img/3.png', 'img/4.png', 'img/5.png'], ['img/1.png', 'img/2.png', 'img/3.png', 'img/4.png']];
+			var arrA = [['img/1.png', 'img/2.png', 'img/3.png'], ['img/1.png', 'img/2.png', 'img/3.png', 'img/4.png'], ['img/1.png', 'img/2.png', 'img/3.png', 'img/4.png', 'img/5.png'], ['img/1.png', 'img/2.png', 'img/3.png', 'img/4.png']];
+			var arrText =[['文本1', '文本2', '文本3'], ['文本1', '文本2', '文本3','文本4' ], ['文本1', '文本2', '文本3','文本4' ,'文本5'], ['文本1', '文本2', '文本3', '文本4']] ;
+
+			// 先做出一个tab来
+			aLi[0].onclick = function(){
+				oImg.src = arrImg[0][0]; //换img
+				oA.href=arrA[0][0]; // 换img上的url
+				var aIndicator = oIndicator.getElementsByTagName('li');
+				// 加indicator的子标签
+				if(oIndicator.innerHTML==''){
+					for (var i = 0; i < arrText[0].length; i++) {
+					oIndicator.innerHTML+='<li>'+arrText[0][i]+'</li>';
+					aIndicator[i].style.width = (600/arrText[0].length)-3+'px';
+					}
+				}
+				// 加子标签hover效果
+				for (var j = 0; j < aIndicator.length; j++) {
+					aIndicator[j].index = j;
+					aIndicator[j].onmouseover = function(){
+						for (var k = 0; k < aIndicator.length; k++) {
+							aIndicator[k].className='';
+						}
+						this.className='hover';
+						oImg.src = arrImg[0][this.index]; // bug：为什么无法获取图片？？？而34行却可获取？—— debug：把自定义index属性放到这个循环里（原因估计，自定义属性有作用域）
+						oA.href=arrA[0][this.index];
+					}
+				}
+			}
+
+		}
+	</script>
+</head>
+<body>
+<!-- 这里html的结构是个问题。一个个写成，好像不太符合js的精神。先参考网友的写法吧。。。http://2017.miaov.com/bbs/54925 
+这里，仅写出平面上呈现的模块。模块的内容后期可用js替换。 -->
+	<div id="container">
+		<ul id="list">
+			<li id="li">最热团购</li>
+			<li>商城特惠</li>
+			<li>名品推荐</li>
+			<li>缤纷活动</li>
+		</ul>
+		<a href="" id="a"><img src="" alt="" id="img"></a>
+		<ul id="indicator"></ul>
+	</div>
+		
+</body>
+</html>

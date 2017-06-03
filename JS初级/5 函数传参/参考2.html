@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>选项卡里套选项卡效果</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    
+    ul,
+    li {
+        list-style-type: none;
+    }
+    
+    .bigbox {
+        width: 1020px;
+        height: 382px;
+        box-shadow: 1px 1px 5px 1px;
+        margin: 70px auto;
+    }
+    
+    .container {
+        width: 950px;
+        height: 332px;
+        position: relative;
+        top: 25px;
+        left: 45px;
+    }
+    
+    #siadbox {
+        width: 150px;
+        height: 332px;
+        text-align: center;
+        border-top: 1px solid #c6c6c6;
+        border-left: 1px solid #c6c6c6;
+    }
+    
+    #siadbox li {
+        width: 150px;
+        height: 81px;
+        background: #e7e7e7;
+        border-top: 1px solid #e7e7e7;
+        border-bottom: 1px solid #c6c6c6;
+        line-height: 81px;
+        cursor: pointer;
+    }
+    
+    #mainbox img {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    
+    #text {
+        width: 800px;
+        height: 30px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+    
+    #mainbox a {
+        text-decoration: none;
+        line-height: 30px;
+        text-align: center;
+        display: inline-block;
+        float: left;
+        background: #e7e7e7;
+        color: black;
+        filter: alpha(opacity=40);
+        opacity: 0.4;
+        box-sizing: border-box;
+        border-right: 1px solid black;
+    }
+    
+    #mainbox #text .hover {
+        background: #422931;
+        color: #ffffff;
+    }
+    </style>
+    <script>
+    window.onload = function() {
+        var aSiad = document.getElementById('siadbox');
+        var aLi = aSiad.getElementsByTagName('li');
+        var oImg = document.getElementById('img');
+        var oText = document.getElementById('text');
+        var aA = oText.getElementsByTagName('a');
+        var num = 0;
+
+        var arrUrl = [
+            ['1r.jpg', '2r.jpg', '3r.jpg', '4r.jpg'],
+            ['1f.jpg', '2f.jpg', '3f.jpg', '4f.jpg', '6f.jpg', '5f.jpg'],
+            ['1j.jpg', '2j.jpg', '3j.jpg'],
+            ['1.jpg', '2.jpg', '3.jpg', '4.jpg'],
+        ]
+        var arrTxt = [
+            ['布衣-烟雨酒华', '如你一般的人', '彼岸无花', 'SHUN', ],
+            ['黑白勃朗峰', '东欧-光影之诗', '异地星球', '北极之旅', '海风吹过', '桂林山水'],
+            ['四季-餐桌', '焦下-小黑伞', '德古拉宝石'],
+            ['草原战士', '朝圣者-转湖', '合照', '「Exciting India 序曲」'],
+        ]
+
+        function fnLeft() { //左边函数初始化
+            aLi[num].style.background = '#ffffff';
+            oText.innerHTML = '';
+            for (var j = 0; j < arrTxt[num].length; j++) { //插入图像标签说明文字
+                oText.innerHTML += '<a href="#">' + arrTxt[num][j] + '</a>';
+            }
+            for (var k = 0; k < aA.length; k++) { //找到图像标签
+                aA[k].style.width = 800 / aA.length + 'px'; //设定图片底部标签的宽度=（盒子宽度800px，800/标签个数）
+            }
+            aA[0].className = 'hover';
+            oImg.src = arrUrl[num][0];
+
+        }
+        fnLeft();
+
+        function fnRight() { //右边函数初始化
+            for (var k = 0; k < aA.length; k++) { //找到图像标签
+                aA[k].index = k;
+                aA[k].onmouseover = function() {
+                    //鼠标移入标签改变标签的class。
+                    for (var k = 0; k < aA.length; k++) {
+                        aA[k].className = '';
+                    }
+                    this.className = 'hover';
+                    //鼠标移入标签改变图片
+                    for (var j = 0; j < arrUrl[num].length; j++) {
+                        oImg.src = arrUrl[num][this.index];
+                    }
+                }
+            }
+        }
+
+        for (var i = 0; i < aLi.length; i++) {
+            aLi.index = i;
+            aLi.onclick = function() { //点击左边标签改变选中背景
+                for (var i = 0; i < aLi.length; i++) {
+                    aLi.style.background = '#e7e7e7';
+                }
+                this.style.background = '#ffffff';
+                //呼叫函数
+                num = this.index;
+                fnLeft();
+                fnRight();
+            }
+        }
+
+    }
+    </script>
+</head>
+
+<body>
+    <div class="bigbox">
+        <div class="container">
+            <ul id="siadbox">
+                <li>人像</li>
+                <li>风景</li>
+                <li>静物</li>
+                <li>纪实</li>
+            </ul>
+            <ul id="mainbox">
+                <li><img id="img"></li>
+                <li id="text"></li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
