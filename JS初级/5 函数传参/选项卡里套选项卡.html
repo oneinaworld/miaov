@@ -30,17 +30,17 @@
 			var arrText =[['文本1', '文本2', '文本3'], ['文本1', '文本2', '文本3','文本4' ], ['文本1', '文本2', '文本3','文本4' ,'文本5'], ['文本1', '文本2', '文本3', '文本4']] ;
 
 			// 先做出一个tab来
-			aLi[0].onclick = function(){
+			/* aLi[0].onclick = function(){
 				oImg.src = arrImg[0][0]; //换img
 				oA.href=arrA[0][0]; // 换img上的url
 				var aIndicator = oIndicator.getElementsByTagName('li');
 				// 加indicator的子标签
-				if(oIndicator.innerHTML==''){
+				oIndicator.innerHTML='';
 					for (var i = 0; i < arrText[0].length; i++) {
 					oIndicator.innerHTML+='<li>'+arrText[0][i]+'</li>';
 					aIndicator[i].style.width = (600/arrText[0].length)-3+'px';
 					}
-				}
+				
 				// 加子标签hover效果
 				for (var j = 0; j < aIndicator.length; j++) {
 					aIndicator[j].index = j;
@@ -53,8 +53,36 @@
 						oA.href=arrA[0][this.index];
 					}
 				}
+			}*/
+			// 对代码进行抽象。可抽象的是aLi[0]/arrImg[0]/arrText[0]/arrA[0]里面的0，即tab的index序号。
+			for (var m = 0; m < aLi.length; m++) {
+				aLi[m].index = m;
+				aLi[m].onclick = function(){
+					for (var i = 0; i < aLi.length; i++) {
+						aLi[i].style.background = '';
+					}
+					this.style.background = 'gray';
+					oImg.src = arrImg[this.index][0]; //换img
+					oA.href=arrA[this.index][0]; // 换img上的url
+					var aIndicator = oIndicator.getElementsByTagName('li');
+					oIndicator.innerHTML='';
+					for (var i = 0; i < arrText[this.index].length; i++) {
+					oIndicator.innerHTML+='<li>'+arrText[this.index][i]+'</li>';
+					aIndicator[i].style.width = (600/arrText[this.index].length)-3+'px';
+					}
+					for (var j = 0; j < aIndicator.length; j++) {
+						aIndicator[j].index = j;
+						aIndicator[j].onmouseover = function(){
+							for (var k = 0; k < aIndicator.length; k++) {
+								aIndicator[k].className='';
+							}
+							this.className='hover';
+							oImg.src = arrImg[this.index][this.index]; // 为什么两个this.index可以存在？
+							oA.href=arrA[this.index][this.index];
+						}
+					}
+				}	
 			}
-
 		}
 	</script>
 </head>
@@ -63,7 +91,7 @@
 这里，仅写出平面上呈现的模块。模块的内容后期可用js替换。 -->
 	<div id="container">
 		<ul id="list">
-			<li id="li">最热团购</li>
+			<li>最热团购</li>
 			<li>商城特惠</li>
 			<li>名品推荐</li>
 			<li>缤纷活动</li>
