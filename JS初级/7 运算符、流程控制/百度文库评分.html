@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{font-size: 20px;font-weight: bold;}
+		div{display: inline-block;width: 20px;height: 20px;border: 1px solid #F1F1F1;position: relative;top: 3px;}
+		#text{display: inline-block; color: #FF5733;font-size: 14px;position: relative;top: -3px;left: 5px;}
+	</style>
+	<script>
+		/* 需求1、鼠标划到哪个方块上，前几个一起变色
+		2、划到第1-3个，一起变灰；划到第4、5个，一起变橙
+		3、边划边变幻span里的文字
+		4、点击固定颜色
+		*/
+		window.onload=function(){
+			var aDiv=document.getElementsByTagName('div');
+			var oText=document.getElementById('text');
+			var arrText=['很差','较差','还行','推荐','力荐'];
+
+			for (var i = 0; i < aDiv.length; i++) {
+				aDiv[i].index=i;
+				aDiv[i].onmouseover=function(){
+					if (this.index<=1) {
+						for (var i = 0; i < this.index+1; i++) {
+							aDiv[i].style.background = '#E3E3E3';
+							oText.innerHTML = arrText[this.index];
+						}
+					} else {
+						for (var i = 0; i < this.index+1; i++) {
+							aDiv[i].style.background = '#F77F20';
+							oText.innerHTML = arrText[this.index];
+						}
+					}
+
+				}
+				aDiv[i].onmouseout=function(){
+					for (var i = 0; i < aDiv.length; i++) {
+						aDiv[i].style.background = '';
+						oText.innerHTML = '';
+					}
+				}
+				aDiv[i].onclick=function(){
+					if (this.index<=1) {
+						for (var i = 0; i < this.index+1; i++) {
+							aDiv[i].style.background = '#E3E3E3';
+							oText.innerHTML = arrText[this.index];
+						}
+					} else {
+						for (var i = 0; i < this.index+1; i++) {
+							aDiv[i].style.background = '#F77F20';
+							oText.innerHTML = arrText[this.index];
+						}
+					}
+					this.onmouseout=null;
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	总体评价：<div></div><div></div><div></div><div></div><div></div><span id="text"></span>
+</body>
+</html>
