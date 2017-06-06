@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>百度音乐-全选操作</title>
+<style>
+ul{ margin:0; padding:0;}
+li{ list-style:none; width:312px; border-top:1px solid #FFF;}
+label{ display:inline-block; width:208px; font-size:12px; line-height:30px;}
+span, form{font-size:12px; line-height:30px;}
+form input{ width:64px; height:22px; border:1px solid #cecece; padding:0; margin-left:11px; color:#9c9c9c; background:#ffffff;}
+#ceb{ margin:3px 3px 3px 4px;width:13px; height:13px; height:auto;}
+</style>
+<script>
+/*
+总结：
+
+遇到的难点：
+1.inp点击后，鼠标移开，灰色不变
+2.点击全选后，再点击每个inp，每个inp都选中的时候，全选也选中
+
+犯了低级错误，
+1.var aInp = oUl.getElementsByTagName('checkbox');
+2.num和mum写混了
+*/
+
+window.onload = function(){
+	var oUl = document.getElementsByTagName('ul')[0];
+	var oForm = document.getElementsByTagName('form')[0];
+	var oInp = oForm.getElementsByTagName('input')[0];
+	var aInp = oUl.getElementsByTagName('input');
+	//var oInp = oForm.getElementsByTagName('checkbox')[0]; 低级错误，困扰了半天
+	//var aInp = oUl.getElementsByTagName('checkbox');
+	var aLi = oUl.getElementsByTagName('li');
+	
+	var arrColor = ['#f7ffff','#ffffff'];
+	var num = 0;// 假设inp的checked为真num增加1.为假减1；当num =aInp.length，说明每个inp都被选中了，全选的inp checked就变味真
+	
+	for(var i=0;i<aLi.length;i++){
+		aLi[i].index = i;
+		aLi[i].style.background = arrColor[i%2];//给li添加上背景颜色
+		
+		aLi[i].onmouseover = function(){
+			aLi[this.index].style.background = '#efefef';//li鼠标移入的时候变成灰色
+		};
+		
+		//checkbox自己有点击事件,不在给li或者inp添加点击事件，直接判断checked真假就可以了
+		aLi[i].onmouseout = function(){
+			if(aInp[this.index].checked){//如果这个inp被勾选了，鼠标移开的时候变成灰色
+				aLi[this.index].style.background = '#efefef';
+			}else{
+				aLi[this.index].style.background = arrColor[this.index%2];//如果这个inp没有被勾选了，鼠标移开的时候变成原来的颜色
+			}
+		};
+		
+		//给每个inp添加点击事件，改变num的值
+		aInp[i].onclick = function(){
+			if(this.checked){
+				num++;
+			}else{
+				num--;
+			}
+			//alert(num);调试num
+			if(num == 5){
+				oInp.checked = true;
+			}else{
+				oInp.checked = false;
+			}
+			fn1();
+		};
+	}
+	
+	//收藏、添加、删除改变颜色
+	function fn1(){
+		var aActive = document.getElementsByClassName('active');		
+		if(num>0){
+			for(var i=0;i<aActive.length;i++){
+				aActive[i].style.color = '#313131';
+			}
+		}else{
+			for(var i=0;i<aActive.length;i++){
+				aActive[i].style.color = '#9c9c9c';
+			}
+		}
+	};
+	oInp.onclick = function(){//全选按钮控制
+		if(oInp.checked){
+			for(var i=0;i<aInp.length;i++){
+				aInp[i].checked = true;
+				aLi[i].style.background = '#efefef';
+			}
+			num = 5;
+			fn1();//收藏、添加、删除改变颜色
+		}else{
+			for(var i=0;i<aInp.length;i++){
+				aInp[i].checked = false;
+				aLi[i].style.background = arrColor[i%2];
+			}
+			num = 0;
+			fn1();//收藏、添加、删除改变颜色
+		}
+	};		
+};
+</script>
+</head>
+
+<body>
+<ul>
+	<li>
+        <label>
+            <input type="checkbox"  />私奔
+        </label>
+        <span>梁博</span><br />
+    </li>
+    <li>
+        <label>
+            <input type="checkbox" />北京北京
+        </label>
+        <span>梁博</span><br />
+    </li>
+    <li>
+        <label>
+            <input type="checkbox"/>我爱你中国
+        </label>
+        <span>梁博</span><br />
+    </li>
+    <li>
+        <label>
+            <input type="checkbox" />花火
+        </label>
+        <span>梁博</span><br />
+    </li>
+    <li>
+        <label>
+            <input type="checkbox"/>爱要有你才完美
+        </label>
+        <span>梁博</span><br />
+    </li>
+</ul>
+<form>
+    <input id="ceb" type="checkbox" />全选
+    <input class="active" type="button" value="收藏" />
+    <input class="active" type="button" value="添加" />
+    <input class="active" type="button" value="删除" />
+</form>
+</body>
+</html>

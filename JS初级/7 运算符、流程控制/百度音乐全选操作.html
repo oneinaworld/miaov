@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{margin: 0;padding: 0;list-style: none;}
+		ul{border: 1px solid #E8E8E8;width: 500px;}
+		li{height: 30px;line-height: 30px;margin-top: 5px;}
+		span{display: inline-block;width: 150px;margin-left: 10px;}
+		#selectall{margin-top: 10px;}
+		button{width: 50px;height: 25px;}
+	</style>
+	<script>
+		/*需求1、未选中状态时，li的背景间隔颜色
+		2、hover时，选中状态时，li的背景为灰
+		3、点全选可全选中；手动全选时，全选按钮自动选中；
+		4、有选中时，删除等三个按钮disabled=false
+		*/
+		window.onload=function(){
+			var oUl=document.getElementsByTagName('ul')[0];
+			var aLi=oUl.getElementsByTagName('li');
+			var aInp=document.getElementsByTagName('input');
+			var aBtn=document.getElementsByTagName('button');
+			var num = 0; // 保存选中的数量
+
+			fnChBtn();
+			for (var i = 0; i < aLi.length; i++) {
+				aLi[i].index = i;
+				if(i%2==1){
+					aLi[i].style.background = '#E5FBF9'; 
+				}
+				aLi[i].onmouseover = function(){
+					this.style.background = '#F0F0F0'; 
+				}
+				aLi[i].onmouseout = function(){
+					// 点击checkbox变色实现不了。所以这段参考网友的。。。。还是不明白原理。。。为什么把click与mouseout放一起？？？
+					if (aInp[this.index].checked) {
+						aLi[this.index].style.background = '#F0F0F0'; 
+					}else {
+						if(this.index%2==1){
+							this.style.background = '#E5FBF9';
+						} else {this.style.background = '';}
+					}
+				}
+				aInp[i].onclick = function(){
+					if (this.checked) {
+						num++;
+						fnChBtn();
+					} else {
+						num--;
+						fnChBtn();
+					}
+					if (num == 5) {
+						aInp[5].checked = true;
+					} else {
+						aInp[5].checked = false;
+					}
+				}
+				// 全选按钮
+				aInp[i+1].onclick = function(){
+					if (this.checked) {
+						num = 5;
+						fnChBtn();
+						for (var i = 0; i < aInp.length-1; i++) {
+							aInp[i].checked = true;
+						}
+					} else {
+						num = 0;
+						fnChBtn();
+						for (var i = 0; i < aInp.length-1; i++) {
+							aInp[i].checked = false;
+						}
+					}
+				}
+			}
+			
+			//  这个收藏按钮状态变幻函数弄了好久。。。
+			function fnChBtn(){
+				if (num > 0) {
+					for (var i = 0; i < aBtn.length; i++) {
+						aBtn[i].disabled = false;
+					}
+				} else if (num == 0) {
+					for (var i = 0; i < aBtn.length; i++) {
+						aBtn[i].disabled = true;
+					}
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	<ul>
+		<li><input type="checkbox"><span>私奔</span><span>梁博</span></li>
+		<li><input type="checkbox"><span>北京北京</span><span>梁博，黄勇</span></li>
+		<li><input type="checkbox"><span>我爱你中国</span><span>梁博</span></li>
+		<li><input type="checkbox"><span>花火</span><span>梁博</span></li>
+		<li><input type="checkbox"><span>回来</span><span>梁博</span></li>
+	</ul>
+	<input type="checkbox" id="selectall"><span>全选</span>
+	<button>收藏</button>
+	<button>添加</button>
+	<button>删除</button>
+</body>
+</html>
