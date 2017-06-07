@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<style type="text/css">
+ul{ margin: 0; padding: 0; }
+li{list-style:none;}
+#wrap{ width:940px; height: 30px; margin:100px auto; padding:10px 20px; background:#000; position:relative; border-radius: 6px;}
+.ee{ float:left; height: 30px; padding:0 18px; line-height: 30px; border-right:1px solid #fff; position:relative;}
+a{ display:block; padding:0 14px;  text-decoration: none; font-size:16px; color:#fff;  border-radius:4px; }
+a:hover{ background:#999; }
+
+.ee ul{ position:absolute; top:50px; background:#000; border-radius: 6px;  padding:10px 20px; width:300px; display:none;}
+.ee li{ float:left; width: 100px; font-size:16px; color:#fff;  border-radius:4px; text-align:center;}
+
+</style>
+<script type="text/javascript">
+window.onload=function()
+{
+        var aA=document.getElementsByClassName('a');
+        var oUl=document.getElementById('wrap');
+        var aUl=oUl.getElementsByTagName('ul');
+        var num=0;
+        var timer=null;
+        for(var i=0; i<aA.length; i++)
+        {
+                aA[i].index=i;
+                aA[i].onmouseover=function()
+                {
+                        for(var i=0; i<aUl.length; i++)
+                        {
+                                aUl[i].style.display='none';
+                        }
+
+                        clearTimeout(timer);
+                        aUl[this.index].style.display='block';
+                }
+
+                aA[i].onmouseout=function()
+                {
+                        num=this.index;
+                        timer=setTimeout(function()
+                        {
+                                aUl[num].style.display='none';
+                        },200)
+                }
+
+        }
+
+
+        for(var i=0; i<aUl.length; i++)
+        {
+                aUl[i].index=i;
+                aUl[i].onmouseover=function()
+                {
+                        clearTimeout(timer);
+                        //this.style.display='block';
+                }
+
+                aUl[i].onmouseout=function()
+                {
+                        num=this.index;
+                        timer=setTimeout(function()
+                        {
+                                aUl[num].style.display='none';
+                        },200)
+                }
+        }
+}
+
+</script>
+</head>
+<body>
+<ul id="wrap">
+        <li class="ee">
+                <a class="a" href="#">首页</a>
+                <ul>
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">作品</a></li>
+                        <li><a href="#">博客</a></li>
+                </ul>
+        </li>
+        <li class="ee">
+                <a class="a" href="#">关于我们</a>
+                <ul>
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">作品</a></li>
+                        <li><a href="#">博客</a></li>
+                </ul>
+        </li>
+        <li class="ee">
+                <a class="a" href="#">作品</a>
+                <ul>
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">作品</a></li>
+                        <li><a href="#">博客</a></li>
+                </ul>
+        </li>
+        <li class="ee">
+                <a class="a" href="#">博客</a>
+                <ul>
+                        <li><a href="#">关于我们</a></li>
+                        <li><a href="#">作品</a></li>
+                        <li><a href="#">博客</a></li>
+                </ul>
+        </li>
+</ul>
+
+</body>
+</html>

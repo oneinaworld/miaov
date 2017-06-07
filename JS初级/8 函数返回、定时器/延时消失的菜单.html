@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{margin: 0;padding: 0;}
+		#main{background: #5B78C4;border-radius: 5px;width: 400px;height: 30px;position: relative;}
+		#main a{border-right: 1px solid #fff;color: white;}
+		#main li:nth-child(5){position: absolute;right: 0;}
+		#ul1,#ul2,#ul3,#ul4{color: #5B78C4;border: 1px solid #5B78C4;border-radius: 5px;font-size: 14px;width: 300px;height: 25px;position: absolute;display: none;}
+		#ul1{top: 35px; left: 5px;}
+		#ul2{top: 35px; left: 30px;}
+		#ul3{top: 35px; left: 50px;}
+		#ul4{top: 35px; left: 70px;}
+		#ul1 a,#ul2 a,#ul3 a,#ul4 a{border-right: 1px solid #5B78C4;}
+		#ul1 a:hover,#ul2 a:hover,#ul3 a:hover,#ul4 a:hover{text-decoration: underline;}
+		li{display: inline-block;}
+		a{display: block;text-decoration: none;padding: 2px 5px;margin: 5px 2px;}
+		div{position: relative;}
+	</style>
+	<script>
+		/*需求1、鼠标移到main的li上时出现对应的ul块
+		2、鼠标可移到ul上，并出现对应下划线
+		**********************
+		bug：鼠标在li之间快速移动时，ul会重合
+		debug：鼠标移入时display都清除一遍
+		*/
+		window.onload=function(){
+			var main = document.getElementById('main');
+			var aUl = document.getElementsByTagName('ul');
+			var aA = main.getElementsByTagName('a');
+			var aLi = main.getElementsByTagName('li');
+			var ul1 = document.getElementById('ul1');
+			var ul2 = document.getElementById('ul2');
+			var ul3 = document.getElementById('ul3');
+			var ul4 = document.getElementById('ul4');
+			var timer = null;
+
+			for (var i = 0; i < aLi.length-1; i++) {
+				aLi[i].index = i;
+				aLi[i].onmouseover = function(){
+					for (var j = 1; j < aUl.length; j++) {
+						aUl[j].style.display = 'none';
+					}
+					clearInterval(timer); // 这里的定时器的作用？
+					aA[this.index].style.background = '#CCDFEA';
+					aUl[this.index+1].style.display = 'inline-block';
+				}
+				aLi[i].onmouseout = function(){
+					var num = this.index;  // 这里弄了很久，直接把this.index放入下面的函数不认。原来要用变量转换。
+					timer = setTimeout(function(){ // 定时器的作用是使消失稍缓
+						aUl[num+1].style.display = 'none';
+					}, 100);
+					aA[this.index].style.background = '';
+					// aUl[this.index+1].style.display = 'none';
+				}
+			}
+			for (var i = 1; i < aUl.length; i++) {
+				aUl[i].index = i;
+				aUl[i].onmouseover = function (){
+					clearInterval(timer);
+					this.style.display = 'inline-block';
+				}
+				aUl[i].onmouseout = function(){
+					this.style.display = 'none';
+				}
+			}
+			// function show(index){
+			// 	aA[index].style.background = '#CCDFEA';
+			// 	aUl[index+1].style.display = 'inline-block';
+			// }
+			// function hide(index){
+			// 	timer = setTimeout(function(){
+			// 			aA[index].style.background = '';
+			// 			aUl[index+1].style.display = 'none';
+			// 		}, 300);
+			// }
+			// for (var i = 1; i < aUl.length; i++) {
+			// 	aUl[i].onmouseover = function(){
+			// 		clearInterval(timer);
+			// 	}
+			// 	aUl[i].onmouseout = function(){
+			// 		this.style.display = 'none';
+			// 	}
+			// }
+		}
+		
+	</script>
+</head>
+<body>
+<div>
+	<ul id="main">
+		<li><a href="">首页</a></li>
+		<li><a href="">关于我们</a></li>
+		<li><a href="">作品</a></li>
+		<li><a href="">博客</a></li>
+		<li><a href="">更多</a></li>
+	</ul>
+	<ul id="ul1">
+		<li><a href="">最近更新</a></li>
+		<li><a href="">活动</a></li>
+		<li><a href="">报名试听</a></li>
+		<li><a href="">演员反馈</a></li>
+	</ul>
+	<ul id="ul2">
+		<li><a href="">讲师</a></li>
+		<li><a href="">方式</a></li>
+		<li><a href="">理念</a></li>
+		<li><a href="">联系我们</a></li>
+	</ul>
+	<ul id="ul3">
+		<li><a href="">般固</a></li>
+		<li><a href="">留学</a></li>
+		<li><a href="">报名试听</a></li>
+		<li><a href="">BCall</a></li>
+	</ul>
+	<ul id="ul4">
+		<li><a href="">JS教程</a></li>
+		<li><a href="">弹出层教程</a></li>
+		<li><a href="">标签云</a></li>
+		<li><a href="">计算器</a></li>
+	</ul>
+</div>
+</body>
+</html>
