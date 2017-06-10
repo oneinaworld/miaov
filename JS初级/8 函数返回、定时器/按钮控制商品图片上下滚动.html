@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{box-sizing: border-box;font-size: 12px;margin:0;padding: 0;}
+		#container{position: relative;height: 500px;width: 180px;border: 1px solid #EAEAEA;overflow: hidden;}
+		#title,#up,#down{width: 180px;height: 20px;z-index: 100;}
+		#title{border-radius: 5px;background: #50789B;color: white;padding: 3px;}
+		#title a{margin-left: 80px;text-decoration: none;color: white;}
+		#up,#down{background: #F1F1E8;position: absolute;left: 0px;}
+		#up{top:20px;}
+		#down{bottom: 0;}
+		ul{list-style: none;width: 180px;position: absolute;top: 40px;z-index: -1;}
+		ul li{width: 150px;height: 80px;border-bottom: 1px solid #EAEAEA;position: relative;margin: 0 10px;padding: 10px 0;}
+		ul li img{width: 78px;height: 50px;float: right;margin-left: 10px;}
+		ul li span{color: #EAEAEA;position:absolute;left: 0;bottom: 10px; }
+	</style>
+	<script>
+		/*需求1、up和down的onmousedown时，ul分别上移和下移
+		2、onmouseup时，停止上移下移
+		方案：用定时器
+		*/
+		window.onload=function(){
+			var oUl = document.getElementsByTagName('ul')[0];
+			var oUp = document.getElementById('up');
+			var oDown = document.getElementById('down');
+			// var timer = null; // 尝试把timer放到oUl的属性里
+
+			oDown.onmousedown = function(){
+				this.style.background = '#E0EAF2';
+				oUl.timer = setInterval(function(){
+					// 用setInterval模拟上下动
+					var speed =  parseInt(getStyle(oUl,'top')) - 5 ;
+					if (speed<-80) {speed = -80}
+					oUl.style.top = speed +'px';
+					if (speed == -80) {clearInterval(oUl.timer)}
+				} , 100) 
+			}
+
+			oDown.onmouseup = function(){
+				this.style.background = '#F1F1E8';
+				clearInterval(oUl.timer);
+			}
+
+			oUp.onmousedown = function(){
+				this.style.background = '#E0EAF2';
+				oUl.timer = setInterval(function(){
+					// 用setInterval模拟上下动
+					var speed = parseInt(getStyle(oUl,'top')) + 5;
+					if (speed>40) {speed = 40}
+					oUl.style.top = speed  +'px';
+					// if (parseInt(getStyle(oUl,'top')) <= 0) {oUl.style.top = 0}
+					// 为了让到达边界时自动停下来，不应直接控制top值，而应控制定时器
+					if (speed == 40) {clearInterval(oUl.timer)}
+				} , 50) 
+			}
+
+			oUp.onmouseup = function(){
+				this.style.background = '#F1F1E8';
+				clearInterval(oUl.timer);
+			}
+
+			// 得到属性的函数
+			function getStyle( obj, attr){
+				return obj.currentStyle?obj.currentStyle[attr]:getComputedStyle(obj)[attr];
+			}
+		}
+	</script>
+</head>
+<body>
+	<div id="container">
+		<div id="title">妙味课堂<a href="">&gt;&gt;更多</a></div>
+		<div id="up"></div>
+		<div id="down"></div>
+		<ul>
+			<li><img src="" alt="">描述描述描述<span>时间</span></li>
+			<li><img src="" alt="">描述描述描述<span>时间</span></li>
+			<li><img src="" alt="">描述描述描述<span>时间</span></li>
+			<li><img src="" alt="">描述描述描述<span>时间</span></li>
+			<li><img src="" alt="">描述描述描述<span>时间</span></li>
+			<li><img src="" alt="">描述描述描述<span>时间</span></li>
+			<li><img src="" alt="">描述描述描述<span>时间</span></li>
+		</ul>
+	</div>
+</body>
+</html>
