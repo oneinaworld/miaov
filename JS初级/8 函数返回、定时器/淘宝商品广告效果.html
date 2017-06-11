@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{padding: 0;margin: 0;font-size: 12px;}
+		#container{height: 220px;width: 300px;border: 1px solid orange;position: relative;margin: 50px auto;}
+		#container ul{position: absolute;list-style: none;top: 0;}
+		#container ul li a{display: block; width: 50px;height: 28px;border: 1px solid #FB9AC5;margin: 1px;text-align: center;line-height: 25px;text-decoration: none;}
+		#container ul li:hover{background: linear-gradient(to bottom, white, #FF64AF);color: white;}
+		#ul1{left: 2px;}
+		#ul2{right: 2px;}
+		#container img{width: 185px;height: 215px;position: absolute;top: 2px;left: 58px;}
+	</style>
+	<script>
+		/*需求1、平时图片自动按照顺序从左至右，从上至下变化，再从下至上，从右至左变化
+		2、鼠标hover到每个li上时，图片跟随变化，鼠标移开时，继续从此处自动变化
+		*/
+		window.onload=function(){
+			var oImg = document.getElementsByTagName('img')[0];
+			// var oUl1 = document.getElementById('ul1');
+			// var oUl2 = document.getElementById('ul2');
+			var aLi = document.getElementsByTagName('li');
+			// var ali2 = oUl2.getElementsByTagName('li');
+			var arrImg = ['img/1.png','img/2.png','img/3.png','img/4.png','img/1.png','img/2.png','img/3.png','img/4.png','img/1.png','img/2.png','img/3.png','img/4.png','img/1.png','img/2.png','img/3.png','img/4.png']
+			var timer = null;
+			var num = 0;
+			
+			function fnChImg1(){
+				num++;
+				oImg.src = arrImg[num];
+				// for (var j = 0; j < aLi.length; j++) {
+					aLi[num-1].style.background = '';
+				// }
+				aLi[num].style.background = 'linear-gradient(to bottom, white, #FF64AF)';
+				// if (num == aLi.length) {
+				// 	// clearInterval(timer);
+				// 	num--;
+				// 	oImg.src = arrImg[num];
+				// 	aLi[num+1].style.background = '';
+				// 	aLi[num].style.background = 'linear-gradient(to bottom, white, #FF64AF)';
+				// }
+				if (num == aLi.length -1) {
+					clearInterval(timer);
+					timer = setInterval(fnChImg2,500);
+				}
+			}
+			function fnChImg2(){
+				num--;
+				oImg.src = arrImg[num];
+				aLi[num+1].style.background = '';
+				aLi[num].style.background = 'linear-gradient(to bottom, white, #FF64AF)';
+				if (num == 0) {
+					clearInterval(timer);
+					timer = setInterval(fnChImg1,500);
+				}
+			}
+			// if ( num == 0 ) {
+			oImg.src = arrImg[num];
+			aLi[num].style.background = 'linear-gradient(to bottom, white, #FF64AF)';
+			timer = setInterval(fnChImg1,500);
+
+			// } 
+			
+			for (var i = 0; i < aLi.length; i++) {
+				aLi[i].index = i;
+				aLi[i].onmouseover = function(){
+					clearInterval(timer);
+					oImg.src = arrImg[this.index];
+					for (var j = 0; j < aLi.length; j++) {
+						aLi[j].style.background = '';
+					}
+					aLi[this.index].style.background = 'linear-gradient(to bottom, white, #FF64AF)';
+				}
+				aLi[i].onmouseout = function(){
+					for (var j = 0; j < aLi.length; j++) {
+						aLi[j].style.background = '';
+					}
+					if (num>this.index) {
+						timer = setInterval(fnChImg2,500);
+					} else {
+						timer = setInterval(fnChImg1,500);
+					}
+				}
+			}
+			// for (var i = 0; i < aLi2.length; i++) {
+			// 	aLi2[i].index = i;
+			// }
+
+			
+		}
+	</script>
+</head>
+<body>
+	<div id="container">
+		<img src="" alt="">
+		<ul id="ul1">
+			<li><a href="">连衣裙</a></li>
+			<li><a href="">雪纺</a></li>
+			<li><a href="">T恤</a></li>
+			<li><a href="">铅笔裤</a></li>
+			<li><a href="">婚纱</a></li>
+			<li><a href="">外套</a></li>
+			<li><a href="">连体裤</a></li>
+		</ul>
+		<ul id="ul2">
+			<li><a href="">包包</a></li>
+			<li><a href="">凉鞋</a></li>
+			<li><a href="">单鞋</a></li>
+			<li><a href="">太阳镜</a></li>
+			<li><a href="">丝袜</a></li>
+			<li><a href="">帆布鞋</a></li>
+			<li><a href="">情侣装</a></li>
+		</ul>
+	</div>
+</body>
+</html>

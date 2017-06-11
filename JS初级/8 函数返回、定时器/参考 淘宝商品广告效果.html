@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<style type="text/css">
+#wrap{ width:400px; height:200px;  border:1px solid red;  margin:50px auto; padding-top:10px; position:relative;}
+ul{ margin:0; padding:0; z-index:2; }
+li{ list-style:none;height:30px; width:50px; background:pink; color:#fff; line-height:30px; text-align:center; border:1px solid red; margin-bottom:2px; position:absolute; cursor:pointer; }
+img{ width:400px; height:210px; position:absolute; top:0;}
+.active{ background:#000; }
+
+</style>
+<script type="text/javascript">
+window.onload=function()
+{
+        var imgURL=['image/1.gif', 'image/2.gif', 'image/3.gif', 'image/4.gif', 'image/5.gif', 'image/6.gif', 'image/7.gif', 'image/8.gif', 'image/9.gif', 'image/10.gif']
+        var aLi=document.getElementsByTagName('li');
+        var oImg=document.getElementsByTagName('img')[0];
+
+        var timer=null;
+        var num=0;
+
+        oImg.src=imgURL[num];
+        for( var i=0; i<aLi.length; i++)
+        {
+                for( var i=0; i<5; i++)
+                {
+                        aLi[i].style.left=8+'px';
+                        aLi[i].style.top=10+i*40+'px';
+                }
+
+                for( var i=5; i<aLi.length; i++)
+                {
+                        aLi[i].style.left=340+'px';
+                        aLi[i].style.bottom=10+(i-5)*40+'px';
+                }
+        }
+
+        change();
+
+        for( var i=0; i<aLi.length; i++)
+        {
+                aLi[i].index=i;
+                aLi[i].onmouseover=function()
+                {
+                        clearInterval(timer)
+                        for( var i=0; i<aLi.length; i++)
+                        {
+                                aLi[i].className='';
+                        }
+                        this.className='active';
+
+                        oImg.src=imgURL[this.index];
+                        num=this.index;
+                }
+
+                aLi[i].onmouseout=change;
+
+        }
+
+        function change()
+        {
+                timer=setInterval(function(){
+                        
+                        num=num%imgURL.length;
+                        for( var i=0; i<aLi.length; i++)
+                        {
+                                for( var i=0; i<aLi.length; i++)
+                                {
+                                        aLi[i].className='';
+                                }
+                                aLi[num].className='active';
+                        }
+                        
+                        oImg.src=imgURL[num];
+                        num++;
+                },1000)
+        }
+
+
+}
+
+</script>
+</head>
+<body>
+<div id="wrap">
+        <img src="">
+        <ul id="tab">
+                <li>1111</li>
+                <li>2222</li>
+                <li>3433</li>
+                <li>4444</li>
+                <li>5555</li>
+                <li>6666</li>
+                <li>7777</li>
+                <li>8888</li>
+                <li>9999</li>
+                <li>0000</li>
+        </ul>
+        
+</div>
+
+</body>
+</html>
