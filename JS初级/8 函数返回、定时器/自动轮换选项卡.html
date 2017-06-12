@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{margin: 0;padding: 0;box-sizing: border-box;font-size: 14px;}
+		#container{width: 320px;height: 142px;margin: 20px auto;border: 1px solid black;position: relative;}
+		#main{position: absolute;left: 9px;top: 9px;list-style: none;}
+		#main li{width: 78px;height: 29px;margin: 1px;background: lightgreen;text-align: center;line-height: 24px;float: left;}
+		#container img{width: 197px;height: 87px;position: absolute;left: 9px;bottom: 9px;}
+		#ul1,#ul2{position: absolute;right: 9px;bottom: 9px;list-style: none;}
+		/*#ul2{display: none;}*/
+		#ul1 li,#ul2 li{width: 100px;height: 28px;background: lightgray;text-align: center;line-height: 24px;margin: 1px;}
+		#main .ulactive,#main .ulactive{color: white;background: #0B6138;}
+		#ul1 .liactive,#ul2 .liactive{background: #0489B1;}
+	</style>
+	<script>
+		/*需求：自动轮播，从菜单一的图片1-3到菜单二的图片4-6
+		*/
+		window.onload = function(){
+			var oMain = document.getElementById('main');
+			var aLi1 = oMain.getElementsByTagName('li');
+			var oUl1 = document.getElementById('ul1');
+			var oUl2 = document.getElementById('ul2');
+			var oDiv = document.getElementById('div');
+			var oImg = document.getElementsByTagName('img')[0];
+			var aLi = oDiv.getElementsByTagName('li');
+			var arrImg = arrImg = ['img/1.png','img/2.png','img/3.png','img/4.png','img/1.png','img/2.png']
+			var num = 0;
+			var timer = null;
+
+			// oImg.src = arrImg[num];
+			// aLi[num].className = 'liactive';
+			// aLi1[0].className = 'ulactive';
+			function fnCh(){
+				timer = setInterval(function (){
+					if (num == 6) {
+						num = 0;
+					}
+					oImg.src = arrImg[num];
+					for (var i = 0; i < aLi.length; i++) {
+						aLi[i].className = '';
+					}
+					aLi[num].className = 'liactive';
+					if (num>=0 && num<3) { //原来bug在这里！不能写0<=num<3！只能用&&！
+						aLi1[1].className = '';
+						aLi1[0].className = 'ulactive';
+						oUl1.style.display = 'block';
+						oUl2.style.display = 'none';
+					} else {
+						aLi1[0].className = '';
+						aLi1[1].className = 'ulactive';
+						oUl1.style.display = 'none';
+						oUl2.style.display = 'block';
+					} 
+					num++;
+				},1000)
+			}
+			fnCh();
+
+			for (var i = 0; i < aLi.length; i++) {
+				aLi[i].index = i;
+				aLi[i].onmouseover = function(){
+					clearInterval(timer);
+					oImg.src = arrImg[this.index];
+					for (var i = 0; i < aLi.length; i++) {
+						aLi[i].className = '';
+					}
+					this.className = 'liactive';
+				}
+				aLi[i].onmouseout = function(){
+					fnCh();
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+<div id="container">
+	<ul id="main">
+		<li>菜单一</li>
+		<li>菜单二</li>
+	</ul>
+	<img src="" alt="">
+	<div id="div">
+	<ul id="ul1">
+		<li class="liactive">图片1</li>
+		<li>图片2</li>
+		<li>图片3</li>
+	</ul>
+	<ul id="ul2">
+		<li>图片4</li>
+		<li>图片5</li>
+		<li>图片6</li>
+	</ul>
+	</div>
+</div>
+</body>
+</html>
