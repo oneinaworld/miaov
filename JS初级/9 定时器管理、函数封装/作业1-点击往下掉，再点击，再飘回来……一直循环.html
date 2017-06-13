@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+
+<script src="miaov.js"></script>
+<script>
+/*需求：点击页面20个div先后掉。再点击20个div再上去。
+思路：先是一直没弄好。后参考网友的，写一开关下来上去就改变值，以判断状态，接受。但其重新写函数不接受，把开关改状态写在回调函数里也不符合逻辑。后把开关改状态写在结束时的状态判定里。
+*/
+window.onload = function () {
+	var str = '';
+	var len = 20;
+	var aDiv = document.getElementsByTagName('div');
+	var timer = null;
+	var num = 0;
+	
+	for ( var i=0; i<len; i++ ) {
+		str += '<div style="width:50px; height:50px; background:red; position:absolute; top:0px; left:'+ i*60 +'px;"></div>';
+	}
+	
+	document.body.innerHTML = str;
+	var onOff = true;
+	// function toggle( aDiv, attr, dir, target) {
+	// 		clearInterval( timer );
+	// 		timer = setInterval( function (){
+	// 			doMove( aDiv[num], attr, dir, target ,function(){
+	// 				if (getStyle(aDiv[len - 1], attr) == target + 'px' ) {
+	// 					onOff=!onOff;
+	// 				}
+	// 			}); //加回调函数
+	// 			num ++;
+	// 			if ( num === len ) {
+	// 				clearInterval( timer );
+	// 			}
+	// 		}, 100 );
+	// };
+	document.onclick = function(){
+		if (onOff) {
+			clearInterval( timer );
+			timer = setInterval( function (){
+				doMove( aDiv[num], 'top', 23, 500 );
+				num ++;
+				if ( num === len ) {
+					clearInterval( timer );
+					num = 0;
+					onOff = !onOff;
+				}
+			}, 100 );
+		} else {
+			clearInterval( timer );
+			timer = setInterval( function (){
+				doMove( aDiv[num], 'top', 23, 0 );
+				num ++;
+				if ( num === len ) {
+					clearInterval( timer );
+					num = 0;
+					onOff = !onOff;
+				}
+			}, 100 );
+		}
+	}
+	// function doMove(obj, attr, dir, target, endFn){
+	// 	dir = parseInt(getStyle(obj, attr))<target?dir:-dir;
+	// 	clearInterval(obj.timer);
+	// 	obj.timer = setInterval(function(){
+	// 		var speed  = parseInt(getStyle(obj, attr)) + dir;
+	// 		if (speed>target && dir>0 || speed<target && dir<0) {
+	// 			speed = target;
+	// 		}
+	// 		obj.style[attr] = speed + 'px';
+	// 		if (speed == target ) {
+	// 			clearInterval(obj.timer);
+	// 		}
+	// 		if (endFn) {endFn()}
+	// 	}, 50)
+
+	// }
+	// function getStyle ( obj, attr ) { 
+	// 	return obj.currentStyle?obj.currentStyle[attr] : getComputedStyle( obj )[attr]; 
+	// }
+};
+</script>
+
+</head>
+
+<body>
+</body>
+</html>
+

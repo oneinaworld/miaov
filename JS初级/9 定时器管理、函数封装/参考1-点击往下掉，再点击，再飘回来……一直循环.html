@@ -1,0 +1,61 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+
+<script src="miaov.js"></script>
+<script>
+window.onload = function () {
+	var str = '';
+	var len = 20;
+	var aDiv = document.getElementsByTagName('div');
+	var timer = null;
+	var num = 0;
+	
+	for ( var i=0; i<len; i++ ) {
+		str += '<div style="width:50px; height:50px; background:red; position:absolute; top:0px; left:'+ i*60 +'px;"></div>';
+	}
+	
+	document.body.innerHTML = str;
+	
+	var onBtn=true;
+	
+	function toggle(a,b,c,d){
+		//var num=0;
+		clearInterval( timer );
+		timer = setInterval( function (){
+			doMove( a[num], b, c, d , function(){
+				if(getComputedStyle(aDiv[len-1])[b]==d+'px'){
+					onBtn=!onBtn;
+				}//这里是为了避免全部落下之前，再次点击造成的bug
+			} );
+			num ++;
+			if ( num === len ) {
+				num=0;
+				clearInterval( timer );
+			}
+
+		}, 100 );
+		
+	}
+	
+	
+	
+	document.onclick = function () {
+		if(onBtn){
+			toggle(aDiv,'top',23,500);
+		}else{
+			toggle(aDiv,'top',23,0);
+		}
+	};
+};
+</script>
+
+</head>
+
+<body>
+</body>
+</html>
+
