@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#div{border:1px solid black;overflow: auto;width: 502px;height: 52px;margin: 100px auto;position: relative;}
+		#div>div{width: 49px;height: 49px;display: inline-block;font-size: 20px;line-height: 50px;text-align: center;position: absolute;z-index: 100;}
+	</style>
+	<script src="miaov.js"></script>
+	<script>
+	/*需求：点击大div时，1、10个小div依次向上飘走消失，最后一个飘走后全部回到原位
+	2、大div背景从左至右变色
+	*************
+	动画先不弄
+	bug:为什么结束后无法全部回到原位？
+	*/
+		window.onload=function(){
+			var oDiv = document.getElementById('div');
+			var aDiv = oDiv.getElementsByTagName('div');
+			var num = 0;
+			var timer = null;
+			
+			for (var i = 0; i < 10; i++) {
+				oDiv.innerHTML+="<div style='left:"+i*50+"px;'>+1</div>";
+			}
+
+			// oDiv.onmouseover = function(){
+			// 	if (!onOff) {
+			// 		for (var i = 0; i < aDiv.length; i++) {
+			// 			aDiv[i].style.top = 0;
+			// 		}
+			// 	}
+			// }
+
+			oDiv.onclick = function(){
+				// for (var i = 0; i < aDiv.length; i++) {
+				// 	aDiv[i].style.top = 0;
+				// }
+				clearInterval(timer);
+				timer = setInterval(function(){
+					doMove( aDiv[num], 'top', 20, -300 );
+					num ++;
+					if (num === aDiv.length) {
+						clearInterval(timer);
+						num = 0;
+						for (var i = 0; i < aDiv.length; i++) {
+							aDiv[i].style.top = 0;
+						}
+					}
+				}, 80)
+			}
+		}
+	</script>
+</head>
+<body>
+	<div id="div"></div>
+</body>
+</html>
