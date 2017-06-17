@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>点击加分效果</title>
+<style type="text/css">
+.container {
+    position: relative;
+    width: 600px;
+    height: 60px;
+    margin: 300px auto 0;
+    border: 1px solid #000;
+}
+p {
+    position: absolute;
+    width: 0px;
+    height: 60px;
+    top: 0;
+    left: 0px;
+    margin: 0;
+    background-color: #6fc;
+    opacity: 0;
+}
+span {
+    position: absolute;
+    z-index: 1;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    top: 0px;
+    left: 0;
+    font-size: 30px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <p></p>
+    <span>+1</span>
+    <span>+1</span>
+    <span>+1</span>
+    <span>+1</span>
+    <span>+1</span>
+    <span>+1</span>
+    <span>+1</span>
+    <span>+1</span>
+    <span>+1</span>
+    <span>+1</span>
+</div>
+
+<script type="text/javascript">
+function getStyle (object, attribute, pseudoElt) {
+    return object.currentStyle ? object.currentStyle[attribute] : getComputedStyle(object,pseudoElt)[attribute];
+}
+function move (object, direction, speed, destination, callback) {
+    speed = destination >= parseInt(getStyle(object,direction)) ? speed : -speed;
+    clearInterval(object.moveTimer);
+    object.moveTimer = setInterval(function () {
+        object.isMoving = true;
+        var moveTo = parseInt(getStyle(object,direction)) + speed;
+        if ((moveTo > destination && speed > 0) || (moveTo < destination && speed < 0)) {
+            moveTo = destination;
+            object.isMoving = false;
+            clearInterval(object.moveTimer);
+            (callback && typeof(callback) === "function") && callback();
+        }
+        object.style[direction] = moveTo + "px";
+    }, 30);
+}
+function fadeOut (object, time, callback) {
+    var rate = 30;
+    var speed = (0 - getStyle(object, "opacity")) / time * rate;
+    clearInterval(object.fadeOutTimer);
+    object.isFading = true;
+    object.fadeOutTimer = setInterval(function () {
+        var fadeTo = parseFloat(getStyle(object, "opacity")) + speed;
+        if (fadeTo <= 0) {
+            fadeTo = 0;
+            clearInterval(object.fadeOutTimer);
+            object.isFading = false;
+            (callback && typeof(callback) === "function") && callback();
+        }
+        object.style.opacity = fadeTo;
+    }, rate);
+}
+function fadeIn (object, time, callback) {
+    var rate = 30;
+    var speed = (1 - getStyle(object, "opacity")) / time * rate;
+    clearInterval(object.fadeInTimer);
+    object.isFading = true;
+    object.fadeInTimer = setInterval(function () {
+        var fadeTo = parseFloat(getStyle(object, "opacity")) + speed;
+        if (fadeTo >= 1) {
+            fadeTo = 1;
+            clearInterval(object.fadeInTimer);
+            object.isFading = false;
+            (callback && typeof(callback) === "function") && callback();
+        }
+        object.style.opacity = fadeTo;
+    }, rate);  
+}
+window.onload = function () {
+    var oContainer = document.getElementsByClassName("container")[0];
+    var oP =  document.getElementsByTagName("p")[0];
+    oP.isMoving = false;
+    oP.isFading = false;
+    var aSpans = document.getElementsByTagName("span");
+    for (var i = 0; i < aSpans.length; i++) {
+        aSpans[i].style.left = 60 * i + "px";
+    }
+
+    oContainer.onclick = function () {
+        if ((!oP.isMoving && !oP.isFading )) {
+            if (parseInt(getStyle(aSpans[9], "top")) == 0) {
+                var num = 0;
+                oContainer.timer = setInterval(function () {
+                    move(aSpans[num], "top", 20, -250);
+                    fadeOut(aSpans[num], 300);
+                    num++;
+                    if (num == aSpans.length) {
+                        clearInterval(oContainer.timer);
+                    }
+                }, 30);
+
+                move(oP, "width", 36, 600);
+                fadeIn(oP,500,function () {
+                    fadeOut(oP, 500,function () {
+                        oP.style.width = 0;
+                        for (var i = 0; i < aSpans.length; i++) {
+                            aSpans[i].style.top = 0;
+                            aSpans[i].style.opacity = 1;
+                        }
+                    });
+                });
+            }
+        };
+    }; 
+};
+</script>   
+</body>
+</html>

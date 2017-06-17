@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{padding: 0;margin: 0;list-style: none;font-size: 12px;/*outline: 1px solid red;*/}
+		#container{width: 736px;height: 272px;border: 1px solid lightblue;margin: 10px auto;}
+		#div1{height: 42px;border-bottom: 1px solid lightblue;background: linear-gradient(to top, lightblue, white);}
+		#div1 span{font-size: 20px;position: relative;top: 10px;left: 10px;color: blue;font-weight: bold;}
+		#div1 ul{margin-left: 158px;height: 30px;}
+		#div1 li{display: inline-block;width: 88px;height: 29px;background: linear-gradient(to top, lightblue, white);position: relative;bottom: 10px;line-height: 30px;text-align: center;border: 1px solid lightblue;}
+		#div1 li.active{background: white;color: green;}
+		
+		#div2{height: 227px;position: relative;}
+		#left{width: 195px;height: 187px;/*margin-left: 10px;margin-top: 10px;*/ position: absolute;left: 10px;top: 10px;}
+		#left img{border: 5px solid lightblue;width: 185px;height: 148px;}
+		#left p{text-align: center;}
+		
+		#right{width: 480px;height: 187px;position: absolute;right: 10px;overflow: hidden;}
+		#ul2{position: absolute;left: 12px;top: 10px;}
+		#ul2 li{display: inline-block;margin-right: 10px;}
+		#ul2 li img{width: 150px;height: 98px;border: 1px solid lightgray;box-sizing: border-box;padding: 5px;}
+		#ul2 li p{color: blue;text-align: center;}
+
+		#bar {height: 24px;position: absolute;bottom: 0;left: 40%;}
+		#bar button{border: 1px solid lightblue;background: linear-gradient(to top, lightblue, white);width: 22px;height: 22px;position: relative;top: -2px;}
+		#bar ol{display: inline-block;position: relative;top: 4px;}
+		#bar ol li{width: 10px;height: 10px;border-radius: 10px;background: lightgray;display: inline-block;margin:3px;border: 1px solid lightgray;}
+		#bar ol li.hover{background: linear-gradient(to top, lightblue, white);border: 1px solid lightblue;}
+	</style>
+	<script src="miaov.js"></script>
+	<script>
+	/*需求：鼠标moveover到ul1的tab上，tab变色，div2中left的图片和说明变，right中的ul2的li中的图片和说明变，bar的li的数量随之变
+	ul2中，点button可随之移动位置。且bar中的li的样式随之变
+	*/
+		window.onload=function(){
+			var oUl1 = document.getElementById('ul1');
+			var aLi1 = oUl1.getElementsByTagName('li');
+			var oLeft = document.getElementById('left');
+			var oRight = document.getElementById('right');
+			var oLeftImg = oLeft.getElementsByTagName('img')[0];
+			var oLeftP = oLeft.getElementsByTagName('p')[0];
+			var oUl2 = document.getElementById('ul2');
+			var aLi2 = oUl2.getElementsByTagName('li');
+			var oOl = document.getElementById('ol');
+			var aLi3 = oOl.getElementsByTagName('li');
+			var oBar = document.getElementById('bar');
+			var aBtn = oBar.getElementsByTagName('button');
+			var arrImgLeft = ['img/1.png','img/2.png'];
+			var arrTextLeft = ['说明1','说明2'];
+			var arrImgRight = [['img/1.png','img/2.png','img/3.png','img/4.png','img/4.png','img/4.png'],['img/1.png','img/2.png','img/3.png','img/4.png']];
+			var arrTextRight = [['说明1','说明2','说明3','说明4'],['说明1','说明2','说明3']];
+
+			//初始化
+			for (var k = 0; k < arrImgLeft.length; k++) {
+				oUl1.innerHTML += "<li>选项"+ parseInt(k+1) +"</li>";
+			}
+
+			aLi1[0].className = 'active';
+			fnIniImg(0);
+			// oLeftImg.src = arrImgLeft[0];
+			// oLeftP.innerHTML = arrTextLeft[0];
+
+			// for (var m = 0; m < arrImgRight[0].length; m++) {
+			// 	oUl2.innerHTML += "<li><img src="+arrImgRight[0][m]+"><p>"+ arrTextRight[0][m] +"</li>";
+			// }
+			// oUl2.style.width = (150 +10)* (arrImgRight[0].length) + 'px';
+
+			// oOl.innerHTML = '';
+			// for (var i = 0; i < Math.ceil(arrImgRight[0].length/3); i++) {
+			// 	oOl.innerHTML += "<li></li>";
+			// }
+			// aLi3[0].className = 'hover';
+
+			for (var i = 0; i < aLi1.length; i++) {
+				aLi1[i].index = i;
+				aLi1[i].onmouseover = function(){
+					for (var j = 0; j < aLi1.length; j++) {
+						aLi1[j].className = '';
+					}
+					this.className = 'active';
+					fnIniImg(this.index);
+					// oLeftImg.src = arrImgLeft[this.index];
+					// oLeftP.innerHTML = arrTextLeft[this.index];
+
+					// oUl2.innerHTML = '';
+					// for (var m = 0; m < arrImgRight[this.index].length; m++) {
+					// 	oUl2.innerHTML += "<li><img src="+arrImgRight[this.index][m]+"><p>"+ arrTextRight[this.index][m] +"</li>";
+					// }
+					// oUl2.style.width = (150 +10)* (arrImgRight[this.index].length) + 'px';
+					// oUl2.style.left = 0;
+
+					// oOl.innerHTML = '';
+					// for (var i = 0; i < Math.ceil(arrImgRight[this.index].length/3); i++) {
+					// 	oOl.innerHTML += "<li></li>";
+					// }
+					// aLi3[0].className = 'hover';
+					// oBar.style.left = (490-(30+10*arrImgRight[this.index]))/2 + 'px'; //为什么不能居中？
+				}
+				
+				////////////////////////
+				
+				fnCh();
+
+			}
+
+			function fnIniImg(n){
+				oLeftImg.src = arrImgLeft[n];
+				oLeftP.innerHTML = arrTextLeft[n];
+
+				oUl2.innerHTML = '';
+				for (var m = 0; m < arrImgRight[n].length; m++) {
+					oUl2.innerHTML += "<li><img src="+arrImgRight[n][m]+"><p>"+ arrTextRight[n][m] +"</li>";
+				}
+				oUl2.style.width = (150 +10)* (arrImgRight[n].length) + 'px';
+				oUl2.style.left = 0;
+
+				oOl.innerHTML = '';
+				for (var i = 0; i < Math.ceil(arrImgRight[n].length/3); i++) {
+					oOl.innerHTML += "<li></li>";
+				}
+				aLi3[0].className = 'hover';
+				oBar.style.left = (490-(30+10*arrImgRight[n]))/2 + 'px'; //为什么不能居中？
+			}
+
+			function fnCh(){
+					var num = 0;
+					aBtn[0].onclick = function(){
+						if (num>0 && num<aLi3.length) {
+							num--;
+							for (var i = 0; i < aLi3.length; i++) {
+								aLi3[i].className = '';
+							}
+							aLi3[num].className = 'hover';
+							// oUl2.style.left = parseInt(getStyle(oUl2,'left')) + 150*3 + 'px';
+							doMove(oUl2,'left',25,(160*3)*num);
+						}
+					}
+					aBtn[1].onclick = function(){
+						if (num>=0 && num<aLi3.length-1) {
+							num++;
+							for (var i = 0; i < aLi3.length; i++) {
+								aLi3[i].className = '';
+							}
+							aLi3[num].className = 'hover';
+							// oUl2.style.left = parseInt(getStyle(oUl2,'left')) - 150*3 + 'px';
+							doMove(oUl2,'left',25,(-160*3)*num);
+						}
+					}
+				}
+		}
+	</script>
+</head>
+<body>
+<div id="container">
+	<div id="div1">
+		<span>新鲜数码</span>
+		<ul id="ul1">
+		</ul>
+	</div>
+	<div id="div2">
+		<div id="left">
+			<img src="" alt="">
+			<p>ddssd</p>
+		</div>
+		<div id="right">
+			<ul id="ul2">
+			</ul>
+			<div id="bar">
+				<button><</button>
+				<ol id="ol">
+				</ol>
+				<button>></button>
+			</div>
+		</div>
+	</div>
+</div>
+	
+</body>
+</html>

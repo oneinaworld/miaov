@@ -1,0 +1,141 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>妙味课堂 - www.miaov.com - 无疑切换的图片</title>
+<style>
+body { background:#f1f1f1; }
+#box { width:640px; height:320px; position:relative; top:100px; margin:0 auto; overflow:hidden; box-shadow:0 0 20px rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.5); }
+#box a { width:28px; height:100px; line-height:100px; text-align:center; background:rgba(0,0,0,0.2); color:#fff; font-size:26px; text-decoration:none; position:absolute; top:110px; z-index:2; transition:0.3s; }
+#box a:hover { background:rgba(0,0,0,0.6); transform:scale(1.1); font-size:32px; }
+#box .prev { left:-1px; border-radius:0 8px 8px 0; }
+#box .next { right:-1px; border-radius:8px 0 0 8px; }
+#box ul { padding:0; margin:0; width:1280px; position:absolute; top:0; left:0; }
+#box ul li { list-style:none; float:left; width:640px; }
+#box ol { padding:0; margin:0; position: absolute; bottom: 10px; left: 0; z-index: 2; }
+#box ol li { width:15px; height: 15px; border-radius: 50%; background: #fff; float: left; cursor: pointer; list-style: none; border: 1px solid #999; transform:scale(0.8); }
+#box ol .active { background: yellow; border: 1px solid #fff; }
+#box img { width:640px; height:320px; }
+</style>
+</head>
+
+<body>
+
+<div id="box">
+        <a class="prev" href="javascript:;"><</a>
+        <a class="next" href="javascript:;">></a>
+        <ol></ol>
+        <ul>
+                <li><img src="img/img14.jpg" /></li>
+                <li><img src="img/img14.jpg" /></li>
+        </ul>
+</div>
+
+<script>
+var oBox = document.getElementById('box');
+var aA = oBox.getElementsByTagName('a');
+var oUl = oBox.getElementsByTagName('ul')[0];
+var oOl = oBox.getElementsByTagName('ol')[0];
+var aLi = oOl.getElementsByTagName('li');
+var aImg = oBox.getElementsByTagName('img');
+var arr = [ 'img/img14.jpg', 'img/img22.jpg', 'img/img24.jpg' ,'img/img25.jpg','img/img32.jpg','img/img33.jpg','img/img36.jpg','img/img42.jpg','img/img43.jpg' ];
+var iNow = 0;
+var bOff = true;
+var oldNum = 0;
+var timer = 0;
+
+for (var i=0; i<arr.length; i++) {
+        oOl.innerHTML += '<li class="' + (i==0?'active':'') + '"></li>'
+}
+oOl.style.left = (640-aLi.length*17)/2 + 'px';
+
+function autoPlay() {
+        timer = setInterval(function() {
+                iNow++;
+                iNow%=arr.length;
+                fnSlide(0);
+        }, 2000);
+}
+autoPlay();
+oBox.onmouseover = function(){ clearInterval(timer); };
+oBox.onmouseout = autoPlay;
+
+for (var i=0; i<arr.length; i++) {
+        aLi[i].onclick = (function(index){
+                return function(){
+
+                        if ( bOff ) {
+
+                                iNow = index;
+
+                                fnSlide(oldNum-index<0?'-640px':0);
+
+                                oldNum = index;
+                                
+                                bOff = false;
+                        }
+
+                };
+        })(i);
+}
+
+aA[0].onclick = function () {
+        
+        if ( bOff ) {
+        
+                iNow++;
+                if ( iNow == arr.length ) {
+                        iNow = 0;
+                }
+                
+                fnSlide(0);
+        
+                bOff = false;
+        }
+};
+
+aA[1].onclick = function () {
+        
+        if ( bOff ) {
+        
+                iNow--;
+                if ( iNow == -1 ) {
+                        iNow = arr.length-1;
+                }
+                
+                fnSlide('-640px');
+        
+                bOff = false;
+        }
+};
+
+
+
+function fnSlide( target ) {
+
+        for (var i=0; i<arr.length; i++) {
+                aLi[i].className = '';
+        }
+        aLi[iNow].className = 'active';
+        
+        oUl.style.left = target == 0?'0px' : '-640px';
+        aImg[target == 0?1:0].src = arr[iNow];
+        
+        setTimeout(function() {
+                oUl.style.transition = '1s';
+                oUl.style.left = target == 0?'-640px':0;
+                
+                setTimeout(function(){
+                        aImg[target == 0?0:1].src = arr[iNow];
+                        oUl.style.transition = '';
+                        
+                        bOff = true;
+                }, 1000);
+        }, 1);
+}
+
+</script>
+
+</body>
+</html>

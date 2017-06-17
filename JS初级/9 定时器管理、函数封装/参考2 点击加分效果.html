@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style>
+*{
+        margin:0px;
+        padding:0px;
+}
+.box{
+        width:400px;
+        height:60px;
+        margin:200px auto;
+        border:1px solid #000;
+        position:relative;
+        
+        
+}
+.list{
+        list-style:none;
+}
+.list li{
+        position:absolute;
+        
+        width:40px;
+        height:60px;
+        text-align:center;
+        line-height:60px;
+        top:0px;
+        
+}
+.rate{
+        
+        height:60px;
+        background:#3FF;
+        
+        width:0px;
+        
+        
+        
+        
+        /*
+        background:rgba(51,204,255,1);
+        background:-webkit-gradient(linear,left top,right top,from(#fff),to(#3FF));
+        background:-o-linear-gradient(left,#fff,#3FF);
+        background:-moz-linear-gradient(left,#fff,#3FF);
+        */
+        
+        position:absolute;
+        left:0px;
+        z-index:-1000;
+
+}
+.test{
+        
+        
+        
+}
+</style>
+<script>
+window.onload = function(){
+        var oList = document.getElementById('list');
+        var oDiv = document.getElementById('div');
+        var aLi = oList.getElementsByTagName('li');
+        
+        var timer = null;
+        var onOff = true;
+                
+        for( var i=0; i<aLi.length; i++ ){
+                aLi[i].style.left = i*40+'px';
+        }
+        //oDiv.style.opacity = 0;
+        document.onclick = function(){
+                if(onOff){onOff = false;fn1();}
+        };
+        
+        function fn1(){
+                var count = 0;
+                clearInterval(timer);
+                
+                timer = setInterval(function(){
+                        if(count == 0){
+                                fn2(oDiv,'width',400,4,function(){
+                                        //alert(1)
+                                oDiv.style.width = '0px';
+                                oDiv.style.opacity = 1;;
+                        });
+                        }
+                        fn2(aLi[count],'top',-100,-1,function(){
+                                if(aLi[aLi.length-1].style.opacity = 0){
+                                        for( var i=0; i<aLi.length; i++ ){
+                                                
+                                                aLi[i].style.top = '0px';
+                                                aLi[i].style.opacity = 1;
+                                        }
+                                        
+                                        
+                                }
+                                onOff = true;
+                        });
+                        
+                        
+                        count++;
+                        
+                        if(count === aLi.length){
+                                clearInterval(timer);
+                                
+                        }
+                },100);
+        }
+        
+        function fn2(obj,attr,target,dir,endFn){
+                
+                clearInterval(obj.timer);
+                var num = 0;
+                obj.timer = setInterval(function(){
+                        
+                
+                        num++;
+                        if(num<=target/dir){
+                                
+                                obj.style[attr] = dir*num+'px';
+                                if(dir === -1){obj.style.opacity = 1-num*0.01;}
+                        
+                                
+                        }else{
+                                if(dir === 4){
+                                        obj.style.opacity = 1-(num-target/dir)*0.01;
+                                        
+                                }
+                                obj.style[attr] = target+'px';
+                                
+                                
+                        }
+                        
+                        if(num === 2*target/dir){
+                                //obj.style.opacity = 0;
+                                clearInterval(obj.timer);
+                                setInterval(timer);
+                                endFn&&endFn();
+                        }
+                        
+                },5)
+        }
+};
+function getStyle ( obj, attr ) {
+        return obj.currentStyle?obj.currentStyle[attr] : getComputedStyle( obj )[attr]; 
+}
+</script>
+</head>
+<body>
+<div class="box">
+  <div class="rate test" id="div"></div>
+  <ul class="list" id="list">
+    <li>+1</li>
+    <li>+1</li>
+    <li>+1</li>
+    <li>+1</li>
+    <li>+1</li>
+    <li>+1</li>
+    <li>+1</li>
+    <li>+1</li>
+    <li>+1</li>
+    <li>+1</li>
+  </ul>
+</div>
+
+</body>
+</html>
