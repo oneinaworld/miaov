@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#container{width: 530px;height: 320px;border:5px solid gray;margin: 20px auto;position: relative;/*overflow: hidden*/;}
+		#img{position: relative;transition: 0.1s;}
+		#img img{width: 530px;height: 320px;/*position: absolute;top:0;*/}
+		#text{width: 100%;height: 82px;opacity: 0.5;filter: opacity(50);background: black;position: absolute;left: 0;bottom: 0;color: white;}
+		#text h3{font-size: 20px;}
+		#text p{font-size: 14px;text-indent: 2em;}
+	</style>
+	<script src="miaov.js"></script>
+	<script>
+	/*需求：1、图片自动从左至右切换，一张一张的
+	2、图片切换一张，说明就从消失变出现，内容也跟着换
+	**********
+	未完成。
+	无缝切换暂时不做
+	*/
+		window.onload=function(){
+			var arrPic = ['img/1.png','img/2.png','img/3.png']
+			var arrH = ['标题1','标题2','标题3',]
+			var arrText = ['说明说明说明说明说明说1','说明说明说明说明说明说明2','说明说明说明说明说明说明说明说3']
+			var oDiv = document.getElementById('container');
+			var oImg = document.getElementById('img');
+			var aImg = oImg.getElementsByTagName('img');
+			var oText = document.getElementById('text');
+			var oH = oText.getElementsByTagName('h3')[0];
+			var oP = oText.getElementsByTagName('p')[0];
+			var num = 0;
+			var timer = null;
+
+			//把图片放进去，横排列
+			for (var i = 0; i < arrPic.length; i++) {
+				oImg.innerHTML+="<img src="+arrPic[i]+">";
+			}
+			oImg.style.width=530*i+'px';
+
+			//定时器切换图片
+			setInterval(function(){
+				doMove(oImg,'left',20,-530);//切换一张
+			}, 1000)
+		}
+	</script>
+</head>
+<body>
+	<div id="container">
+		<div id="img">
+		</div>
+		<div id="text">
+			<h3></h3>
+			<p></p>
+		</div>
+	</div>
+</body>
+</html>
