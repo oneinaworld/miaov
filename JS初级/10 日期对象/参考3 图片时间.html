@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+ <head>
+  <meta charset="UTF-8" />
+  <!--meta http-equiv="x-ua-compatible"content="ie=7"/--> 
+  <title>时间扩展</title>
+  <style type="text/css">
+	ul,li{margin:0;padding:0;list-style:none;}
+	#box{
+		margin:120px;
+		width:400px;
+		height:70px;
+		padding:6px;
+		border:3px solid #6dbdff;
+
+	}
+	#list{
+		width:400px;
+		height:70px;
+	}
+	li{
+		width:50px;
+		height:70px;
+		float:left;
+		position:relative;
+		overflow:hidden;
+	}
+	div{
+		width:50px;
+		height:140px;
+		position:absolute;
+		top:0;
+		left:0;
+	}
+	img{
+		width:50px;
+		height:70px;
+		vertical-align:top;
+	}
+  </style>
+  <script src="move.js"></script>
+  <script type="text/javascript">
+	window.onload = function(){
+		
+		
+
+		var oU = document.getElementById('list');
+		var iCol = 0;
+		var bIntMark = true;
+
+		var arrImg = [
+						'img/0.jpg','img/1.jpg','img/2.jpg','img/3.jpg','img/4.jpg',
+						'img/5.jpg','img/6.jpg','img/7.jpg','img/8.jpg','img/9.jpg'
+					 ];
+
+		var arrDot = ['img/colon0.jpg','img/colon1.jpg'];
+
+		var aShow = getClass(oU,'show');
+		var aColon = getClass(oU,'colon');
+		var aColImg = [];
+
+		//------------------------------冒号闪烁------------------------
+
+		for(var i=0;i<aColon.length;i++){
+			aColImg.push(aColon[i].getElementsByTagName('img')[0]);
+		}
+
+
+		function colChange(obj,attr,arr,num,fn){
+			setTimeout(function(){
+				obj[attr] = arr[num%arr.length];
+				fn && fn();
+			},500);
+		}
+
+		function dotCH(){
+			var fn = arguments.callee;
+			iCol++;
+			colChange(aColImg[0],'src',arrDot,iCol);
+			colChange(aColImg[1],'src',arrDot,iCol,function(){
+				iCol++;
+				colChange(aColImg[0],'src',arrDot,iCol);
+				colChange(aColImg[1],'src',arrDot,iCol,fn);
+			});
+		}
+		dotCH();
+
+		//---------------------------End 冒号闪烁------------------------
+
+
+	
+
+		for(var i=0;i<aShow.length;i++){
+			aShow[i].bMark = true;
+			aShow[i].index = i;
+			aShow[i].iNum = 0;
+		}
+	
+		function showTime(){
+			
+			var myTime = new Date();
+			var str = '';
+
+			var iHour = myTime.getHours();
+			var iMin = myTime.getMinutes();
+			var iSec = myTime.getSeconds();
+
+			str = toTwo(iHour)+toTwo(iMin)+toTwo(iSec);
+			
+			//------------------------------时间图片初始化函数---------------------------------------
+			function intFn(obj,arrImg){
+				var aImg = obj.getElementsByTagName('img');
+				
+				if(obj.bMark){
+					obj.iNum = parseInt(str.charAt(obj.index));
+					obj.iNow0 = parseInt(str.charAt(obj.index));
+					obj.bMark = false;
+
+					for(var i=0;i<aImg.length;i++){
+						aImg[i]['src'] = arrImg[obj.iNum%arrImg.length];
+						obj.iNum++;
+					}
+					obj.iNum--;
+				}
+			
+			}
+			//--------------------------End 时间图片初始化函数---------------------------------------
+
+
+			//------------------------------时间初始化-----------------------------------------------
+			if(bIntMark){
+				for(var i=0;i<aShow.length;i++){
+					intFn(aShow[i],arrImg);
+					bIntMark = false;
+				}
+			}
+			//----------------------------End 时间初始化-----------------------------------------------
+			
+
+			//------------------------------图片向上滑动效果函数---------------------------------------
+
+			function imgMove(obj,arrImg){
+					var aImg = obj.getElementsByTagName('img');
+					aImg[1].src = arrImg[obj.iNow1%arrImg.length];
+
+					doMove(obj,'top',4,-70,function(){
+						aImg[0].src = arrImg[obj.iNow1%arrImg.length];
+						obj.style.top = 0;
+					})
+			}
+
+			//----------------------------End 图片向上滑动效果函数--------------------------------------
+			
+				for(var i=0;i<aShow.length;i++){
+					aShow[i].iNow1 = parseInt(str.charAt(i));
+					if(aShow[i].iNow1 != aShow[i].iNow0){
+						imgMove(aShow[i],arrImg);
+						aShow[i].iNow0 = aShow[i].iNow1;
+					}
+				}
+
+		}
+
+		showTime();//时间初始化
+		setInterval(showTime,230)
+
+
+
+		
+
+		//-------------------------补0函数-------------------------
+		function toTwo ( n ) {
+			return n < 10 ?  '0' + n : '' + n;
+		}
+		//-------------------------End 补0函数----------------------
+		
+	}
+  </script>
+ </head>
+ <body>
+	<div id="box">
+		<ul id="list">
+			<li>
+				<div class="show">
+					<img />
+					<img />
+				</div>
+			</li>
+			<li>
+				<div class="show">
+					<img />
+					<img />
+				</div>
+			</li>
+			<li>
+				<div class="colon">
+					<img src="img/colon0.jpg"/>
+				</div>
+			</li>
+			<li>
+				<div class="show">
+					<img />
+					<img />
+				</div>
+			</li>
+			<li>
+				<div class="show">
+					<img />
+					<img />
+				</div>
+			</li>
+			<li>
+				<div class="colon">
+					<img src="img/colon0.jpg"/>
+				</div>
+			</li>
+			<li>
+				<div class="show">
+					<img />
+					<img />
+				</div>
+			</li>
+			<li>
+				<div class="show">
+					<img />
+					<img />
+				</div>
+			</li>
+		</ul>
+	</div>
+	
+ </body>
+</html>

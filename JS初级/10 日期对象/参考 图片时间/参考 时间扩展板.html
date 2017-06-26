@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+ul{ margin:50px auto; padding:0;position:relative; width:1000px; height:172px; overflow:hidden;}
+li{ float:left; position:relative; width:122px; height:172px;}
+img{ position:absolute;}
+</style>
+<script src="myjs.js"></script>
+<script>
+
+/*终结：
+1、先布置好个图片的位置，时间滚动，用两张图片的移动实现
+2、让时间初始化，页面打开时出现的时间
+3、给秒添加滚动效果，两张图片来回滚动，向上滚动的图片滚动前改变其src值、再函数传参实现时分
+4、冒号的闪烁，可以用定时器来控制两张图片的显示和隐藏
+
+看似简单的时间滚动，既然弄了一天，中途回调函数写错写成fnEnd（），卡了好长时间。
+最主要的是之前思路有个地方错误了，我把定时器时间用函数惨进去了，fnTime(aLi[7],1，1000);fnTime(aLi[6],1，10000)。。。。
+这样代码量加大时间一直不同步，想了N多种放发判断，最后也没能成功，后面看论坛才谎言大悟，在图片运动的时候就直接判断了，秒发生改变的时候让秒的图片动
+分发生改变的时候让分的图片动...
+布局的时候没有添加class，也导致了后面代码加大*/
+
+
+function toTwo ( n ) {
+	return n < 10 ?  '0' + n : '' + n;
+}
+window.onload = function(){
+	var aLi = document.getElementsByTagName('li');
+	var timer = null;
+	
+	for(var i=0;i<aLi.length;i++){
+		var aImg = aLi[i].getElementsByTagName('img');
+		aImg[1].style.top = '172px';
+		aImg[0].style.top = '0px';//页面打开时设置好img1和img2的位置
+	}
+	aLi[2].getElementsByTagName('img')[1].style.top = 0;
+	aLi[5].getElementsByTagName('img')[1].style.top = 0;
+	
+	//刚打开页面时的时间
+	var myTime = new Date();
+	var iHours = myTime.getHours();
+	var iMin = myTime.getMinutes();
+	var iSec = myTime.getSeconds();
+	var oldStr = toTwo(iHours)+toTwo(iMin)+toTwo(iSec);//旧的str                    //添加自定义属性值，做判断用
+	aLi[0].getElementsByTagName('img')[0].src = 'img/' + oldStr.charAt(0) + '.JPG';aLi[0].index = parseInt(oldStr.charAt(0));
+	aLi[1].getElementsByTagName('img')[0].src = 'img/' + oldStr.charAt(1) + '.JPG';aLi[1].index = parseInt(oldStr.charAt(1));
+	aLi[3].getElementsByTagName('img')[0].src = 'img/' + oldStr.charAt(2) + '.JPG';aLi[3].index = parseInt(oldStr.charAt(2));
+	aLi[4].getElementsByTagName('img')[0].src = 'img/' + oldStr.charAt(3) + '.JPG';aLi[4].index = parseInt(oldStr.charAt(3));
+	aLi[6].getElementsByTagName('img')[0].src = 'img/' + oldStr.charAt(4) + '.JPG';aLi[6].index = parseInt(oldStr.charAt(4));
+	aLi[7].getElementsByTagName('img')[0].src = 'img/' + oldStr.charAt(5) + '.JPG';aLi[7].index = parseInt(oldStr.charAt(5));
+	//函数传参把时分秒分都开启定时器
+	fnTime(aLi[7],1);
+	fnTime(aLi[6],2);
+	fnTime(aLi[4],3);
+	fnTime(aLi[3],4);
+	fnTime(aLi[1],5);
+	fnTime(aLi[0],6);
+	
+	function fnTime(aLi,n){
+				
+	var aImg = aLi.getElementsByTagName('img');
+	aImg[0].style.top = 0;
+	var num = 0;
+	
+	timer = setInterval(function(){
+		var myTime = new Date();
+		var iHours = myTime.getHours();
+		var iMin = myTime.getMinutes();
+		var iSec = myTime.getSeconds();
+		var str = toTwo(iHours)+toTwo(iMin)+toTwo(iSec);
+		
+		if(parseInt(str.charAt(str.length-n)) !== aLi.index){ //如果这个时间改变了，才让它移动
+			doMove( aImg[num],'top',10,-172,function endFn(){
+				if(num == 0){aImg[aImg.length-1].style.top = '172px';}
+				else{aImg[num-1].style.top = '172px';}//图片向上移动后再拉回来
+			});
+			num++;num%=aImg.length;
+			aImg[num].src = 'img/' + str.charAt(str.length-n) + '.JPG';//向上移动的图片的src对于arr。charAt的值
+			doMove( aImg[num],'top',10,0);
+			aLi.index = parseInt(str.charAt(str.length-n));
+			//alert(oldStr.charAt(str.length-n));
+		};
+		
+	},1000);};
+	
+	//冒号闪动
+	fnColon(aLi[2]);
+	fnColon(aLi[5]);
+	function fnColon(aLi){
+		var aColon = aLi.getElementsByTagName('img');
+		setInterval(function(){
+			setTimeout(function(){
+			aColon[1].style.display = 'none';
+			setTimeout(function(){
+				aColon[1].style.display = 'block';
+			},500)
+			},500);
+		},1000);
+	};	
+};
+</script>
+</head>
+<body>
+<ul>
+	<li><img src="img/0.JPG" /><img src="img/0.JPG" /> </li>
+	<li><img src="img/0.JPG" /><img src="img/0.JPG" /> </li>
+	<li><img src="img/colon1.JPG" /><img src="img/colon.JPG" /></li>
+	<li><img src="img/0.JPG" /><img src="img/0.JPG" /> </li>
+	<li><img src="img/0.JPG" /><img src="img/0.JPG" /> </li>
+	<li><img src="img/colon1.JPG" /><img src="img/colon.JPG" /></li>
+	<li><img src="img/0.JPG" /><img src="img/0.JPG" /> </li>
+	<li><img src="img/0.JPG" /><img src="img/1.JPG" /></li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		li{list-style: none;display: inline-block;width: 122px;position: absolute;top: 0;}
+		/*li img:first-child{position: absolute;top: 0;}
+		li img:nth-child(2){position: absolute;top: 172px;}*/
+	</style>
+	<script src='miaov.js'></script>
+	<script>
+	window.onload = function () {
+		var oTime = document.getElementById('time'),
+		    aLi = document.getElementsByTagName('li'),
+		    // aImg = document.getElementsByTagName('img'),
+        str = ''
+		function fnTime(){
+        var iNow = new Date()//获取系统时间
+        str = toTwo(iNow.getHours()) + toTwo(iNow.getMinutes()) + toTwo(iNow.getSeconds());
+		    for (var i = 0; i < aLi.length; i++) {
+		    	aLi[i].style.left = 125*i + 'px';
+		    	if (i==0 || i==1) {
+			    	var oImg = aLi[i].getElementsByTagName('img')[0];	
+			    	oImg.src = "img/" + str.charAt(i) + ".JPG";
+		    	} else if (i==3 || i==4){
+		    		var oImg = aLi[i].getElementsByTagName('img')[0];
+			    	oImg.src = "img/" + str.charAt(i-1) + ".JPG";
+		    	} else if (i==6 || i==7){
+		    		var oImg = aLi[i].getElementsByTagName('img')[0];
+			    	oImg.src = "img/" + str.charAt(i-2) + ".JPG";
+		    }
+    }
+  }
+
+    fnTime();
+    setInterval(fnTime, 1000);
+
+    function toTwo(n){
+    	return n < 10 ? '0' + n : '' + n;
+    }
+
+
+	}
+	</script>
+</head>
+<body>
+	<ul>
+		<li>
+			<img src="img/0.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/0.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/colon.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/0.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/0.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/colon.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/0.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/0.JPG" alt="">
+		</li>
+	</ul>
+</body>
+</html>

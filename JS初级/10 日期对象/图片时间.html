@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		li{list-style: none;display: inline-block;width: 122px;height: 172px;position: absolute;overflow:hidden;/*top: 0;*/}
+		li img{position: absolute;}
+		/*li img:first-child{position: absolute;top: 0;}
+		li img:nth-child(2){position: absolute;top: 172px;}*/
+	</style>
+	<script src='miaov.js'></script>
+	<script>
+	/*需求：1、显示当前系统动态时间
+	2、时间用图片表示
+	3、图片变动效果为上下动态切换
+	解决：参考4  http://bbs.miaov.com/forum.php?mod=viewthread&tid=47213
+	*/
+	window.onload = function () {
+		var aLi = document.getElementsByTagName('li'),
+		    timer = null,
+		    arr = [];
+		    // aImg = document.getElementsByTagName('img'),
+        arrImg = [
+						'img/0.JPG','img/1.JPG','img/2.JPG','img/3.JPG','img/4.JPG',
+						'img/5.JPG','img/6.JPG','img/7.JPG','img/8.JPG','img/9.JPG'
+					 ],
+				//获取旧时间
+		    oldTime = new Date(),
+				strOld = toTwo(oldTime.getHours()) + '#' + toTwo(oldTime.getMinutes()) + '#' + toTwo(oldTime.getSeconds());
+		// alert(strOld);
+
+		for (var i = 0; i < aLi.length; i++) {
+				aLi[i].style.left = 122*i + 'px';
+		}
+
+		clearInterval(timer);
+		timer = setInterval(function(){
+			var newTime = new Date(),//在定时器中获取新时间
+					strNew = toTwo(newTime.getHours()) + '#' + toTwo(newTime.getMinutes()) + '#' + toTwo(newTime.getSeconds());
+			// alert(strNew);
+			// alert(aLi.length);
+			for (var i = 0; i < aLi.length; i++) {
+				//找到每个li下的两张图片
+				var aImg0 = aLi[i].getElementsByTagName('img')[0],
+						aImg1 = aLi[i].getElementsByTagName('img')[1];
+				//下面是重点
+				//获取时间对应的图片。img0用oldTime，img1用newTime
+				if (i != 2 && i != 5) {
+					// console.log(aImg1);
+					//初始化图片位置
+					aImg0.style.top = '0';
+					aImg1.style.top = '172px';//原先把这句放在if外的，结果找不到元素造成无法继续解析。因为冒号li那里只有1张图片。参考4那里因为有2张图片所以可以放在外面没有错误。但是还是放在这里比较好。
+					aImg0.src = arrImg[strOld.charAt(i)];
+					aImg1.src = arrImg[strNew.charAt(i)];
+				} else {  //放两个冒号
+					aImg0.src = 'img/colon.JPG';
+				}
+			}
+			//for循环结束
+
+			arr = fn(strOld, strNew);//记录oldTime和newTime的数字不同的位数
+			for (var i = 0; i < arr.length; i++) {
+				var aImg = aLi[arr[i]].getElementsByTagName('img');
+				//上移两个img
+				doMove(aImg[0], 'top', 20, -172);
+				doMove(aImg[1], 'top', 20, 0);
+			}
+			//最后把strOld设为最新时间
+			strOld = strNew;
+		},1000)
+
+    function toTwo(n){
+    	return n < 10 ? '0' + n : '' + n;
+    }
+		//比较对应位上的字符，如不等则记录此位
+    function fn(str1,str2){
+    	var arr = [];
+    	for (var i = 0; i < str1.length; i++) {
+    		if (str1.charAt(i) != str2.charAt(i)) {
+    			arr.push(i);//这里把arr.push(i)写成了arr.push[i]。。。。
+    		}
+ 	   	}
+ 	   	return arr;
+    }
+   	// console.log(fn('12355','12346'))
+	}
+	</script>
+</head>
+<body>
+	<ul>
+		<li>
+			<img src="img/0.JPG" alt="">
+			<img src="img/0.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/0.JPG" alt="">
+			<img src="img/0.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/colon.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/0.JPG" alt="">
+			<img src="img/0.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/0.JPG" alt="">
+			<img src="img/0.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/colon.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/0.JPG" alt="">
+			<img src="img/0.JPG" alt="">
+		</li>
+		<li>
+			<img src="img/0.JPG" alt="">
+			<img src="img/0.JPG" alt="">
+		</li>
+	</ul>
+</body>
+</html>
