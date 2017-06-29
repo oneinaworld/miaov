@@ -4,53 +4,83 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<style>
-		#container{width: 530px;height: 320px;border:5px solid gray;margin: 20px auto;position: relative;/*overflow: hidden*/;}
-		#img{position: relative;transition: 0.1s;}
-		#img img{width: 530px;height: 320px;/*position: absolute;top:0;*/}
-		#text{width: 100%;height: 82px;opacity: 0.5;filter: opacity(50);background: black;position: absolute;left: 0;bottom: 0;color: white;}
-		#text h3{font-size: 20px;}
-		#text p{font-size: 14px;text-indent: 2em;}
+		*{margin:0;padding: 0;}
+		#container{width: 530px;height: 320px;border:5px solid gray;margin: 20px auto;position: relative;overflow: hidden;}
+		#img{position: absolute;list-style: none;top: 0;height: 320px;}
+		#img li{position: absolute;display: inline-block;}
+		#img li img{width: 530px;height: 320px;}
+		#text{width: 100%;height: 82px;/*opacity: 0.5;filter: opacity(50);*/background: rgba(0,0,0,0.3);position: absolute;left: 0;bottom:0;color: white;}
+		#text h2{font-size: 20px;margin:10px;}
+		#text p{font-size: 14px;text-indent: 2em;margin: 15px 0;}
 	</style>
 	<script src="miaov.js"></script>
 	<script>
 	/*需求：1、图片自动从左至右切换，一张一张的
 	2、图片切换一张，说明就从消失变出现，内容也跟着换
 	**********
-	未完成。
-	无缝切换暂时不做
+	终于完成了！先想参考网友的，但不理解，最后是在智能社无缝视频的基础上完成的。先搭无缝的架子，再换图片的切换方式，最后写h2和p的显示方式。
 	*/
 		window.onload=function(){
 			var arrPic = ['img/1.png','img/2.png','img/3.png']
 			var arrH = ['标题1','标题2','标题3',]
 			var arrText = ['说明说明说明说明说明说1','说明说明说明说明说明说明2','说明说明说明说明说明说明说明说3']
 			var oDiv = document.getElementById('container');
-			var oImg = document.getElementById('img');
-			var aImg = oImg.getElementsByTagName('img');
+			var oUl = document.getElementById('img');
+			var aLi = oUl.getElementsByTagName('li');
+			var aImg = oUl.getElementsByTagName('img');
 			var oText = document.getElementById('text');
-			var oH = oText.getElementsByTagName('h3')[0];
+			var oH = oText.getElementsByTagName('h2')[0];
 			var oP = oText.getElementsByTagName('p')[0];
 			var num = 0;
-			var timer = null;
 
 			//把图片放进去，横排列
 			for (var i = 0; i < arrPic.length; i++) {
-				oImg.innerHTML+="<img src="+arrPic[i]+">";
+				// oUl.innerHTML+="<li style=left:"+i*530+"px><img src="+arrPic[i]+"></li>";
+				oUl.innerHTML+="<li><img src="+arrPic[i]+"></li>";
 			}
-			oImg.style.width=530*i+'px';
+			oUl.innerHTML=oUl.innerHTML+oUl.innerHTML;
+			oUl.style.width=530*aLi.length+'px';
+			for (var i = 0; i < aLi.length; i++) {
+				aLi[i].style.left = 530*i+'px';
+			}
 
-			//定时器切换图片
+			// oH.innerHTML=arrH[0];
+			// oP.innerHTML=arrText[0];
+
 			setInterval(function(){
-				doMove(oImg,'left',20,-530);//切换一张
-			}, 1000)
+				// doMove(oImg,'left',20,-530);//切换一张
+				
+				oH.innerHTML=arrH[num];
+				oP.innerHTML=arrText[num];
+				if (parseInt(getStyle(oUl,'left'))<=-parseInt(getStyle(oUl,'width'))/2) {
+					oUl.style.left='0';
+				}
+				// oUl.style.left=parseInt(getStyle(oUl,'left')) - 10 +'px';
+				setTimeout(function(){
+					doMove(oUl,'left',20,parseInt(getStyle(oUl,'left'))-530);//移动图片
+				},3000)
+				
+				doMove(oText, 'bottom', 5, 0);
+				
+				setTimeout(function(){
+					doMove(oText,'bottom', 5, -82)
+				},2500)
+				num++;
+				num%=arrPic.length;
+				// if (num=arrPic.length) {
+				// 	num=0;
+				// }
+			}, 3000)
+			
+
 		}
 	</script>
 </head>
 <body>
 	<div id="container">
-		<div id="img">
-		</div>
+		<ul id="img"></ul>
 		<div id="text">
-			<h3></h3>
+			<h2></h2>
 			<p></p>
 		</div>
 	</div>
