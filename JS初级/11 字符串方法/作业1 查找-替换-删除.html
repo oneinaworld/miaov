@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{margin: 0;padding: 0;list-style: none;font-size: 12px;}
+		#box{width: 500px;height: 300px;position: relative;margin: 20px auto;}
+		#tab1{width: 50px;height: 25px;position: absolute;left: 501px;top: 0;background-color: gray;color: white;line-height: 25px;text-align: center;}
+		#tab2{width: 50px;height: 25px;position: absolute;left: 501px;top: 26px;background-color: lightgray;line-height: 25px;text-align: center;display: none;}
+		#tab3{width: 50px;height: 25px;position: absolute;left: 501px;top: 52px;background-color: lightgray;line-height: 25px;text-align: center;display: none;}
+		#div1{width: 460px;height: 160px;border: 5px solid lightgray;padding: 15px;}
+		#div1 span{background: yellow;}
+		#div2{width: 460px;height: 80px;border: 5px solid gray;position: relative;padding: 15px;display: none;}
+		#ul2{border-bottom: 2px solid gray;height: 25px;}
+		#mtab1,#mtab2{float: left;width: 50px;height: 25px;background-color: lightgray;line-height: 25px;text-align: center;}
+		#mtab2{margin-left: 1px;}
+		/*#mtab1{width: 50px;height: 25px;position: absolute;top: 15px;left: 15px;background-color: lightgray;}
+		#mtab2{width: 50px;height: 25px;position: absolute;top: 15px;left: 66px;background-color: lightgray;}*/
+		#content{position: absolute;top: 60px;left: 15px;}
+		#content div{display: none;}
+		#content input{width: 110px;height: 20px;}
+		#content button{width: 30px;height: 20px;margin-left: 5px;}
+		/*画叉号*/
+		#close{position: absolute;right: 5px;top: 10px;width: 12px;height: 12px;}
+		#close:hover{background: lightgray;}
+		#chacha {display:inline-block; width:12px; height:2px; background:black; font-size:0; line-height:0;vertical-align:middle;-webkit-transform: rotate(45deg);position: absolute;top: 5px;}
+		#chacha:after { content:'.'; display:block; width:12px; height:2px; background:black;-webkit-transform: rotate(-90deg);}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div id="div1"></div>
+		<ul id="ul1">
+			<li id="tab1">展开</li>
+			<li id="tab2">查找</li>
+			<li id="tab3">替换</li>
+		</ul>
+		<div id="div2">
+			<ul id="ul2">
+				<li id="mtab1">查找</li>
+				<li id="mtab2">替换</li>
+			</ul>
+			<div id="content">
+				<div><input type='text'><button>查找</button></div>
+				<div><input type='text'><input type='text' style='margin-left: 10px;'><button>替换</button></div>
+			</div>
+			<div id="close">
+				<div id="chacha"></div>
+			</div>
+		</div>
+	</div>
+	<script>
+	/*需求：1、点击展开时，动态展开查找 和替换；
+	2、点击查找时，content为一个input加查找按钮；点击替换时，content为2个input加替换按钮。mtab随之切换。
+	3、实现查找和替换功能。
+	*/
+	var oUl1 = document.getElementById('ul1');
+	var aLi1 = oUl1.getElementsByTagName('li');
+	var oContent = document.getElementById('content');
+	var oCon1 = oContent.getElementsByTagName('div')[0];
+	var oCon2 = oContent.getElementsByTagName('div')[1];
+	var oUl2 = document.getElementById('ul2');
+	var aLi2 = oUl2.getElementsByTagName('li');
+	var oClose = document.getElementById('close');
+	var oDiv1 = document.getElementById('div1');
+	var oDiv2 = document.getElementById('div2');
+	var oBtn1 = oContent.getElementsByTagName('button')[0];
+	var oBtn2 = oContent.getElementsByTagName('button')[1];
+	var oInp1 = oContent.getElementsByTagName('input')[0];
+	var oInp2 = oContent.getElementsByTagName('input')[1];
+	var oInp3 = oContent.getElementsByTagName('input')[2];
+	var arrText = ['虽然疾病预防控制中心没有说明出生率下降的原因，但美国女性不愿生育的原因其实有很多，经济、文化等因素都影响了更多女性推迟生育，甚至放弃生育。比如很多人想在还完学生贷款或其他负债之前不生小孩，也有人出于职业发展考虑选择不生或晚生，同时，“不是每个人都需要有小孩 ”的观念也被更多人所接受。'];
+	oDiv1.innerHTML = arrText[0];
+	//添加各元素的click事件
+	function chShow(obj){
+		if (getStyle(obj, 'display') == 'block') {
+			obj.style.display ='none';
+		} else if (getStyle(obj, 'display') == 'none') {
+			obj.style.display = 'block';
+		}
+	}
+	function showLookUp(){
+		aLi2[0].style.background = 'gray';
+		aLi2[1].style.background = '';
+		oDiv2.style.display = 'block';
+		oCon1.style.display = 'block';
+		oCon2.style.display = 'none';
+	}
+	function showRePlace(){
+		aLi2[0].style.background = '';
+		aLi2[1].style.background = 'gray';
+		oDiv2.style.display = 'block';
+		oCon1.style.display = 'none';
+		oCon2.style.display = 'block';
+	}
+	// alert(getStyle(aLi1[1], 'display'))
+	aLi1[0].onclick = function(){
+		// aLi1[1].style.display = 'block';
+		// aLi1[2].style.display = 'block';
+		chShow(aLi1[1]);
+		chShow(aLi1[2]);
+	}
+	aLi1[1].onclick = function(){
+		// this.style.display = 'none';
+		chShow(this);
+		// aLi1[2].style.display = 'none';
+		chShow(aLi1[2]);
+		// aLi2[0].style.background = 'gray';
+		// aLi2[1].style.background = '';
+		// oDiv2.style.display = 'block';
+		// // chShow(oDiv2);
+		// // oContent.innerHTML = "<input type='text'><button>查找</button>";
+		// oCon1.style.display = 'block';
+		// oCon2.style.display = 'none';
+		// // chShow(oCon1);
+		// // chShow(oCon2);
+		showLookUp();
+	}
+	aLi1[2].onclick = function(){
+		// this.style.display = 'none';
+		// aLi1[1].style.display = 'none';
+		chShow(this);
+		chShow(aLi1[1]);
+		// aLi2[0].style.background = '';
+		// aLi2[1].style.background = 'gray';
+		// oDiv2.style.display = 'block';
+		// // chShow(oDiv2);
+		// // oContent.innerHTML = "<input type='text'><input type='text' style='margin-left: 10px;'><button>替换</button>";
+		// oCon1.style.display = 'none';
+		// oCon2.style.display = 'block';
+		// // chShow(oCon1);
+		// // chShow(oCon2);
+		showRePlace();
+	}
+	aLi2[0].onclick = function(){
+		// aLi2[0].style.background = 'gray';
+		// aLi2[1].style.background = '';
+		// // oContent.innerHTML = "<input type='text'><button>查找</button>";
+		// oCon1.style.display = 'block';
+		// oCon2.style.display = 'none';
+		// // chShow(oCon1);
+		// // chShow(oCon2);
+		showLookUp();
+	}
+	aLi2[1].onclick = function(){
+		// aLi2[0].style.background = '';
+		// aLi2[1].style.background = 'gray';
+		// // oContent.innerHTML = "<input type='text'><input type='text' style='margin-left: 10px;'><button>替换</button>";
+		// oCon1.style.display = 'none';
+		// oCon2.style.display = 'block';
+		// // chShow(oCon1);
+		// // chShow(oCon2);
+		showRePlace();
+	}
+	oClose.onclick = function(){
+		// oDiv2.style.display = 'none';
+		chShow(oDiv2);
+	}
+
+	// 进行查找、替换
+	oBtn1.onclick = function(){
+		oDiv1.innerHTML = arrText[0];
+		var str1 = oInp1.value;
+		if (str1) {
+			if (oDiv1.innerHTML.split(str1).length > 1) {
+				oDiv1.innerHTML = oDiv1.innerHTML.split(str1).join('<span>'+str1+'</span>');
+			} else {
+				alert('没有找到' + "\"" + str1 + "\"");
+			}
+		} else {
+			alert('请输入要查找的字符');
+		}
+	}
+	oBtn2.onclick = function(){
+		oDiv1.innerHTML = arrText[0];
+		var str1 = oInp2.value;
+		var str2 = oInp3.value;
+		if (str1 && str2) {
+			if (oDiv1.innerHTML.split(str1).length > 1) {
+				oDiv1.innerHTML = oDiv1.innerHTML.split(str1).join('<span>'+str2+'</span>');
+			} else {
+				alert('没有找到' + "\"" + str1 + "\"");
+			}
+		} else {
+			alert('请输入要查找和要替换的字符');
+		}
+	}
+	function getStyle ( obj, attr ) { 
+	return obj.currentStyle?obj.currentStyle[attr] : getComputedStyle( obj )[attr]; }
+	</script>
+</body>
+</html>
