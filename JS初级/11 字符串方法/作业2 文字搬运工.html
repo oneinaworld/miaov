@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#textarea{width: 500px;height: 250px;border: 1px solid black;background: #FAFAEB;display: inline-block;vertical-align: top;}
+		#div3{width: 500px;height: 250px;border: 1px solid black;background: #DDF1F1;display: inline-block;}
+		#div2{width: 100px;height: 250px;display: inline-block;vertical-align: top;}
+		#div2 button{width: 100px;height: 50px;background: #FF5151;color: #fff;border: none;}
+		#div2 button:hover{background: #D85151;}
+		#div2 p{text-align: center;}
+		#bar {width: 80px;height: 10px;margin: 0 auto;}
+	</style>
+</head>
+<body>
+	<textarea type="text" id="textarea"></textarea>
+	<div id="div2">
+		<button>把文字右移</button>
+		<p><span id="span1">0</span>/<span id="span2">0</span></p>
+		<div id="bar"></div>
+	</div>
+	<div id="div3"></div>
+	<script>
+		/*点击button，左边文字一个一个减少，右边文字一个一个增加。
+		span中跟随统计已搬运文字数。
+		*/
+		var oTextarea = document.getElementById('textarea');
+		var oDiv3 = document.getElementById('div3');
+		var oBtn = document.getElementById('div2').getElementsByTagName('button')[0];
+		var oSpan1 = document.getElementById('span1');
+		var oSpan2 = document.getElementById('span2');
+		
+		// 给button加点击事件
+		oBtn.onclick = function(){
+			var arr = oTextarea.value.split('');//得到输入框字符串，转成数组
+			var timer = null;
+			var str = arr.join();//把数组转成字符串
+			var newArr = [];
+			oSpan2.innerHTML = arr.length;//输入的字符总数放入span2
+			timer = setInterval(function(){
+				var first = arr.shift();//拿起数组的第一个元素
+				newArr.push(first);//放入新数组最后
+				oDiv3.innerHTML = newArr.join(''); //div3内容等于新数组转字符串
+				oTextarea.value = arr.join('');//area内容等于旧数组转字符串
+				oSpan1.innerHTML = arr.length;
+				if (arr.length <= 0 ) {
+					clearInterval(timer);
+				}
+			}, 100);
+		}
+	</script>
+</body>
+</html>
