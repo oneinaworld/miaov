@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!--
+			1、模块、单词间距、文字行高要与设计图统一
+			2、思考题：每一行的前方粉色带三角的区域该如何实现?
+		-->
+		<style>
+			#container{width: 350px;font: 16px ;line-height: 40px;color: #5f5e5e;}
+			.row{height: 40px;}
+			.row:not(:last-child){border-bottom: 10px solid #c6cad7;}
+			.row div{display: inline-block;}
+			div.left{width: 80px;background: #fceef1;position: relative;margin-right: 25px;}
+			div.left>div{width: 0;height: 0;border: 5px solid #fff;position: absolute;left: 80px;top: 15px;border-left: 5px solid #fceef1;}
+			.row div:not(:first-child){margin-right: 43px;}
+		</style>
+	</head>
+	<body>
+	<div id="container">
+		<div class="row"><div class="left">装修设计<div></div></div><div>全包</div><div>半包</div><div>设计</div></div>
+		<div class="row"><div class="left">家装建材<div></div></div><div>吊灯</div><div>马桶</div><div>地板</div></div>
+		<div class="row"><div class="left">全屋定制<div></div></div><div>衣柜</div><div>橱柜</div><div>门</div></div>
+		<div class="row"><div class="left">住宅家具<div></div></div><div>沙发</div><div>床</div><div>桌椅</div></div>
+		<div class="row"><div class="left">家纺订品<div></div></div><div>四件套</div><div>被</div><div>枕头</div></div>
+		<div class="row"><div class="left">家饰布艺<div></div></div><div>摆件</div><div>挂画</div><div>窗帘</div></div>
+		<div class="row"><div class="left">生活家居<div></div></div><div>收纳</div><div>拖鞋</div><div></div></div>
+		<div class="row"><div class="left">居家必备<div></div></div><div>汤锅</div><div>碗盘</div><div>雨伞</div></div>
+	</div>
+	</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!--
+			1、两个线框图都得做
+			2、上面利用margin完成
+			3、下面利用padding完成
+			4、混合使用margin和padding同时完成
+			
+			注意：
+				不管是结构还是样式的编码
+				从外往里（从大往小）进行编码
+		-->
+		<style>
+		#container1{width: 698px;height: 598px;background: #e56d76;border: 1px solid #e56d76; } /*有margin的bug，给父级加边框解决*/
+		#container1>div{width: 414px;height: 414px;border: 3px dashed #fff;margin: 90px 140px;}
+		#container1>div>div{border: 2px solid #fff; width: 346px;height: 346px;background: #ea8891;margin: 32px;}
+		#container1>div>div>div{border: 2px dotted #fff;width: 276px;height: 276px;background: #fdad5f;margin: 33px;}
+		#container1>div>div>div>div{border: 1px dashed #fff;width: 214px;height:214px;background: #faec4d;margin: 30px;}
+		#container1>div>div>div>div>div{border: 1px dashed #fff;width: 198px;height: 198px;background: #bfc649;margin: 7px;}
+		#container1>div>div>div>div>div>div{border: 2px solid #fff;width: 113px;height: 113px;background: #e56d76;margin: 38px;}
+		#container2{width: 420px;height: 420px;background: #3c3b4b;padding: 92px 140px;}
+		#container2>div{border: 5px solid #f38db9;width: 350px;height: 350px;padding: 30px;}
+		#container2>div>div{border: 3px dotted #bae1fd;width: 280px;height: 280px;padding:32px;background:#c5acdb;}
+		#container2>div>div>div{border: 2px dashed #fff;padding:30px;width:216px;height:216px;background: #9dc4f5;}
+		#container2>div>div>div>div{border:1px dashed #fff;padding:7px;width:200px;height:200px;background: #b9e0fe;}
+		#container2>div>div>div>div>div{border:1px dashed #fff;padding:43px;width:117px;height:117px;background:#b7b3e5;}
+		#container2>div>div>div>div>div>div{border:2px dashed #fff;width:113px;height:113px;background:#bae1fd;}
+		</style>
+	</head>
+	<body>
+		<div id="container1">
+			<div><div><div><div><div><div></div></div></div></div></div></div>
+		</div>
+		<div id="container2">
+			<div><div><div><div><div><div></div></div></div></div></div></div>
+		</div>
+	</body>
+</html>

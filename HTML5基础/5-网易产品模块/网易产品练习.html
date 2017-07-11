@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!--
+			1、利用第一章所学的所有知识点完成
+			2、思考：能否统一对该模块所有的文字进行行高统一的设置？
+				经测量，所有文字之间间距都为33px，与图标间距30px，多排文字上下间距22px，如要设置统一行高，则为22+16=38px，
+			bug：IE下不认&nbsp;
+				解决：按成&emsp;
+			*************
+			在写文字时stuck了，文字间距怎么办，上下间距怎么办，用多个p还是一个词一个span。后用br和&emsp解决，代码少快速。统一设置行高，再用padding填充。margin不行，有bug。
+		-->
+		<style>
+		*{margin:0;padding:0;font-size:16px;}
+		#container{background: url(con_bg.png) repeat-x;width: 900px;height: 800px;padding: 50px;}
+		#box{width:496px;height: 616px;border: 2px solid #beafe2;margin: 0 auto;}
+		#div1{height: 120px;background: url(div1_bg.png);}
+		#div2{height: 38px;border-bottom: 2px solid #ebe7f6;background:#fff url(邮件.gif) no-repeat 39px 34px;padding:30px 0 30px 105px;}
+		#div3{height: 76px;border-bottom: 2px solid #ebe7f6;background:#fff url(鼠标.gif) no-repeat 40px 30px;padding:11px 0 13px 105px;}
+		/*统一设计行高*/
+		p{line-height: 38px;}
+		#div4{height: 76px;border-bottom: 2px solid #ebe7f6;background:#fff url(笑脸.gif) no-repeat 39px 33px;padding:11px 0 13px 105px;}
+		#div5{height: 152px;background:#fff url(星星.gif) no-repeat 39px 32px;padding:14px 0 26px 105px;}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div id="box">
+				<div id="div1"></div>
+				<div id="div2">
+					<p>免费邮&emsp;&emsp;VIP邮箱&emsp;&emsp;企业邮&emsp;&emsp;邮箱大师</p>
+				</div>
+				<div id="div3">
+					<p>梦幻西游&emsp;&emsp;新大话&emsp;&emsp;藏地传奇&emsp;&emsp;魔兽世界<br>
+					星际争霸&emsp;&emsp;倩女幽魂&emsp;&emsp;武魂&emsp;&emsp;天下&emsp;&emsp;新飞飞</p>
+				</div>
+				<div id="div4">
+					<p>考拉海购&emsp;&emsp;LOFTER&emsp;&emsp;博客&emsp;&emsp;相册&emsp;&emsp;花田交友<br>
+					约会&emsp;&emsp;女神&emsp;&emsp;跟帖&emsp;&emsp;抢购&emsp;&emsp;CC语音&emsp;&emsp;直播</p>
+				</div>
+				<div id="div5">
+					<p>彩票&emsp;&emsp;理财&emsp;&emsp;商城&emsp;&emsp;贵金属&emsp;&emsp;电影票&emsp;&emsp;车险<br>
+					有道词典&emsp;&emsp;翻译&emsp;&emsp;云笔记&emsp;&emsp;印像派&emsp;&emsp;公开课<br>
+					云课堂&emsp;&emsp;读小说&emsp;&emsp;云音乐&emsp;&emsp;火车票&emsp;&emsp;游戏助手<br>
+					公正邮&emsp;&emsp;应用&emsp;&emsp;杂志&emsp;&emsp;新闻客户端&emsp;&emsp;大学慕课</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
