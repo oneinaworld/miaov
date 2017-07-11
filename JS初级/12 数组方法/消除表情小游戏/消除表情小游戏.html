@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    body { background:#f1f1f1; font-family:微软雅黑; font-size:16px;  }
+    #box { width:800px; height:450px; border:1px solid #066; background:#FFF; margin:20px auto 0; position:relative; top:0; left:0; }
+    #fraction { width:130px; border:1px solid #066; position:relative; top:-1px; left:-152px; background:#FFC; padding:10px; }
+    #fraction p { margin:0; font-family:微软雅黑; font-size:16px; line-height:30px; }
+    #qq{width:24px;height:24px;position: absolute;}
+    #alert { text-align:center; }
+    </style>
+</head>
+<body>
+    <div id="alert">
+        <h2>你的鼠标有多快？</h2>
+        <p>游戏说明：点击“开始游戏”，随机掉下QQ表情，点中它，千万别让它掉下去！！</p>
+        <input type="button" value="开始游戏" />
+    </div>
+    <div id="box">
+        <div id="fraction">
+            <p>得分：<span>0</span> 分</p>
+            <p>失分：<span>0</span> 分</p>
+        </div>
+    </div>
+    <script>
+    /*qq表情从box的随机宽度处掉下，往下走，鼠标点中后消失；鼠标没点中，则一直走完box的高度，box抖动，qq表情消失。后一表情的速度比前一表情+1。点中一次得分+1，否则失分+1。失分到10，游戏结束。
+    */
+    var aSrc = ["<img src='img/1.png'/>", "<img src='img/2.png'/>", "<img src='img/3.png'/>", "<img src='img/4.png'/>", "<img src='img/5.png'/>", "<img src='img/6.png'/>", "<img src='img/7.png'/>", "<img src='img/8.png'/>", "<img src='img/9.png'/>", "<img src='img/10.png'/>", "<img src='img/11.png'/>", "<img src='img/qq.png'/>"];
+    var oInp = document.getElementById('alert').getElementsByTagName('input')[0];
+    var oBox =document.getElementById('box');
+    var oFra =document.getElementById('fraction');
+    var oGet = oFra.getElementsByTagName('span')[0];
+    var oLose = oFra.getElementsByTagName('span')[1];
+
+    oInp.onclick = function(){
+        var oQQ = document.createElement('div');
+        // var oQQ =document.getElementById('qq');
+        oBox.appendChild(oQQ);
+        oQQ.id = 'qq';
+        var speed = 1;
+        this.value = "游戏进行中";
+        this.style.color = 'lightgray'; 
+
+        // 随机装载QQ图标、随机位置的函数
+        function initialQQ(){
+            oQQ.innerHTML = aSrc[Math.round(Math.random()*11)];
+            oQQ.style.top = 0;
+            oQQ.style.left = Math.round(Math.random()*770) + 'px';
+        }
+
+        function dissaQQ(){
+            shake(oBox, 'top');
+            oQQ.innerHTML = aSrc[11];
+            oLose.innerHTML = parseInt(oLose.innerHTML) - 10;
+            if (parseInt(oLose.innerHTML) == -100){
+                alert('You Lose!');
+                oInp.value = "开始游戏";
+                oInp.style.color = 'black';
+                oGet.innerHTML = '0';
+                oLose.innerHTML = '0';
+                oBox.removeChild(oQQ);
+            } else {
+                speed++;
+                setTimeout(function(){  //延时初始化QQ，为让抖函数走完
+                    initialQQ();
+                    doMove(oQQ, 'top', speed, 426, dissaQQ);
+                },500)
+            }
+        }
+        initialQQ();
+        doMove(oQQ, 'top', speed, 426, dissaQQ);
+        
+        oQQ.onclick = function(){
+            shake(oQQ, 'left');
+            this.innerHTML = aSrc[11];
+            oGet.innerHTML = parseInt(oGet.innerHTML) + 10;
+            if (parseInt(oGet.innerHTML) == 100){
+                oBox.removeChild(oQQ);
+                oInp.value = "开始游戏";
+                oInp.style.color = 'black';
+                oGet.innerHTML = '0';
+                oLose.innerHTML = '0';
+                alert('You Win!');
+            } else {
+                speed++;
+                setTimeout(function(){
+                    initialQQ();
+                    doMove(oQQ, 'top', speed, 426, dissaQQ);
+                }, 550)
+            }
+        }
+    }
+
+    function doMove ( obj, attr, dir, target, endFn ) {
+        dir = parseInt(getStyle( obj, attr )) < target ? dir : -dir;
+        clearInterval( obj.timer );
+        obj.timer = setInterval(function () {
+            var speed = parseInt(getStyle( obj, attr )) + dir;			// 步长
+            if ( speed > target && dir > 0 ||  speed < target && dir < 0  ) {
+                speed = target;
+            }
+            obj.style[attr] = speed + 'px';
+            if ( speed == target ) {
+                clearInterval( obj.timer );
+                endFn && endFn();
+            }
+        }, 30);
+    }
+
+    function getStyle ( obj, attr ) { 
+        return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle( obj )[attr]; }
+
+    function shake ( obj, attr, endFn ) {
+        var pos = parseInt( getStyle(obj, attr) );
+        var arr = [];			// 20, -20, 18, -18 ..... 0
+        var num = 0;
+        var timer = null;
+            
+        for ( var i=10; i>0; i-=2 ) {
+            arr.push( i, -i );
+        }
+        arr.push(0);
+            
+        clearInterval( obj.shake );
+        obj.shake = setInterval(function (){
+            obj.style[attr] = pos + arr[num] + 'px';
+            num++;
+            if ( num === arr.length ) {
+                clearInterval( obj.shake );
+                endFn && endFn();
+            }
+        }, 30);
+    }
+    </script>
+</body>
+</html>
