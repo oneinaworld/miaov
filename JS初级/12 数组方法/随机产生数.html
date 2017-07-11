@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		p{word-wrap: break-word;}
+	</style>
+	<script>
+	/*随机产生100个0~100之间不重复的整数
+	*/
+	window.onload=function(){
+		var arr = [];
+		var oP = document.getElementsByTagName('p')[0];
+		// 随机产生300个小于1000的整数
+		for (var i = 0; i < 300; i++) {
+			arr.push(Math.round( Math.random() * 1000 ));
+		}
+	    //去重
+	    quchong(arr);
+
+	    arr.length = 100;//只取前100个项
+        oP.innerHTML = arr + '<br/>' + '一共有'+ arr.length + '个数字';
+		
+        function quchong(arr){
+        	for ( var i=0; i<arr.length; i++ ) {
+				for ( var j=i+1; j<arr.length; j++ ) {
+					if ( arr[i] == arr[j] ) {
+						arr.splice( j, 1 );
+						j--;
+					}
+				}
+			}
+        }
+    }
+	</script>
+</head>
+<body>
+	<p></p>
+</body>
+</html>
