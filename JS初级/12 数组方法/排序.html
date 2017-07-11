@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    ul,li,img,p{margin:0;padding:0;list-style:none}
+    /*body{background:#f1f1f1;}*/
+    #container{width:1208px;height:544px;background:#f1f1f1;}
+    #btn{height:38px;padding-left:483px;}
+    #btn button{width:118px;height:38px;background: #009999;color: #fff;float:left;margin-right: 5px;line-height: 38px;font-size:14px;text-align:center;border:none;}
+    #item{height:488px;margin-top:20px;}
+    #item li{width:300px;height:243px;display:block;float:left;margin-right:2px;background: #fff;}
+    #item li img{width:280px;height:182px;margin:10px auto 0 auto;display:block;}
+    #item li p{width:280px;height:42px;background:#f1f1f1;color:#006699;font-size:18px;text-align:center;margin:0 auto;line-height:42px;}
+    </style>
+    <script>
+    /*点击“从小到大”、按序号排列；点击“打乱顺序”，随机排列。
+    第一、排列li的顺序的方法。先把li加上index，再放入一个数组，再把item清空，最后打乱数组顺序，把li放回item。关键点是如何打乱数组顺序。
+    */
+    window.onload=function(){
+        var oBtn1 = document.getElementById('btn').getElementsByTagName('button')[0];
+        var oBtn2 = document.getElementById('btn').getElementsByTagName('button')[1];
+        var oItem = document.getElementById('item');
+        var aItem = oItem.getElementsByTagName('li');
+        // 以下是为了保存原li的内容。
+        var arr = [], text, oldArr;
+        for (var i=0;i<aItem.length;i++){
+            arr.push(aItem[i].innerHTML);//保存li里的文本，不能保存整个li元素。
+        }
+        text = arr.join(); //数组内存转存为字符串（转为值）
+        oldArr = text.split(',');//字符串再转为数组，获得原始的内容数组
+        // alert(arr);
+        // alert(oldArr)
+
+        oBtn2.onclick = function(){
+            // 清空每个li。
+            for (var i=0;i<aItem.length;i++){
+                aItem[i].innerHTML = '';
+            }
+            // var newArr = arr; // 用新的数组打乱顺序，不在原数组上更改
+            // 打乱数组顺序。这里用sort方法。
+            arr.sort(function(){return 0.5 - Math.random()});
+            // 放回item里
+            for ( var i = 0; i < arr.length; i++ ){
+                aItem[i].innerHTML = arr[i];
+            }
+        }
+
+        oBtn1.onclick = function(){
+            // 清空每个li。
+            for (var i=0;i<aItem.length;i++){
+                aItem[i].innerHTML = '';
+            }
+            
+            // 把原arr放回
+            for ( var j = 0; j < oldArr.length; j++ ){
+                aItem[j].innerHTML = oldArr[j];
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div id="container">
+        <div id="btn">
+            <button>从小到大</button>
+            <button>打乱顺序</button>
+        </div>
+        <ul id="item">
+            <li>
+                <img src="" alt="">
+                <p>1-温馨办公</p>
+            </li>
+            <li>
+                <img src="" alt="">
+                <p>2-游戏桌面</p>
+            </li>
+            <li>
+                <img src="" alt="">
+                <p>3-汽车摇滚</p>
+            </li>
+            <li>
+                <img src="" alt="">
+                <p>4-狭路相逢</p>
+            </li>
+            <li>
+                <img src="" alt="">
+                <p>5-棒球小子</p>
+            </li>
+            <li>
+                <img src="" alt="">
+                <p>6-球鞋动力</p>
+            </li>
+            <li>
+                <img src="" alt="">
+                <p>7-游戏官网</p>
+            </li>
+            <li>
+                <img src="" alt="">
+                <p>8-指尖社区</p>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
