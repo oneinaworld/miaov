@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #container{margin: 20px auto;width: 360px;}
+    #show{border: 1px solid lightgray;padding: 10px;margin:5px 0; }
+    #show p{background: lightgray;margin-bottom: 5px;}
+    #show p:hover{background: yellow;}
+    #show p .index{float:right;}
+    #show p>span:first-child{color:gray;font-style:italic;}
+    #show p>span:last-child span:first-child{color:blue;text-decoration: underline;}
+    /* #show span.off {display:none;}
+    #show span.on {display:inline;} */
+    #area{width:356px;height:126px;border:2px solid #5a4d95;border-radius: 5px;}
+    #btn{width: 96px;height: 26px;border: 2px solid #fff;border-radius: 10px;background: #14afd0;float:right;}
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h3>留言内容：</h3>
+        <hr>
+        <div id="show"><span>这里会显示留言内容</span></div>
+        <textarea name="" id="area"></textarea>
+        <button id="btn">发表留言</button>
+    </div>
+<script>
+    /*
+    需求：
+		 			1)当没有内容的时候点击提交按钮，弹出请输入内容
+		 			2)有发言就将留言的内容添加到show内，并且提示的内容消失
+		 			3)移入移出有效果
+		 			4)当删除的时候，序列号重排
+		 			5)继续输入同样按照顺序去排列
+		 			6)当内容被删除完了之后提示内容显示
+    */
+    var oShow = document.getElementById('show');
+    var aP = oShow.getElementsByTagName('p');
+    var oArea = document.getElementById('area');
+    var oBtn = document.getElementById('btn');
+    var aA = oShow.getElementsByTagName('a');
+    
+    
+
+    oBtn.onclick = function(){
+        if (oArea.value) {
+            // 有内容时，提示内容消失
+            if (oShow.innerHTML == "<span>这里会显示留言内容</span>"){ 
+                oShow.removeChild(oShow.children[0]);
+            } 
+            var newNode1 = document.createElement('p');
+            var num = oShow.children.length;//show下面子节点个数
+            newNode1.innerHTML = "<span>"+(num+1)+".</span>" + oArea.value; 
+            oShow.appendChild(newNode1);
+            oArea.value = '';
+            // num++;
+
+            for (var i = 0; i<aP.length; i++){
+                aP[i].index = i;
+                // 创建确定删除和第几条的子节点
+                var newNode2 = document.createElement('span');
+                newNode2.style.cssFloat = 'right';
+                newNode2.style.fontStyle = 'normal';
+                newNode2.style.color = 'red';
+                // newNode2.style.display = 'none';
+                aP[i].onmouseover = function(){
+                    // 移入，背景变色，加上确定删除和第几条的子节点。发现鼠标移动太快会导致颜色无法正常反应，于是改成css。
+                    // this.style.background = 'yellow';
+                    newNode2.innerHTML = "<span href='#'>确定删除</span>第"+(this.index+1)+"条";
+                    this.appendChild(newNode2);
+                    newNode2.style.display = 'inline';
+                    // 点击确定删除，删除本p。bug是，无法点击删除时删除，只能点击其父span。。。
+                    var span1 = this.lastElementChild;  
+                    // var span2 = span1.firstElementChild;//用span可以，用a不行，为什么？决定 不用a标签，改成span加样式，还是不行。
+                    span1.onclick = function(){
+                        var p = this.parentNode;
+                        // console.log(this);
+                        p.parentNode.removeChild(p);
+                        // 删除时，p的序号重排
+                        for (i=0;i<aP.length;i++){
+                            aP[i].children[0].innerHTML = (i+1) + '.';
+                        }
+                        // 全部删除时，提示文字出现
+                        if (oShow.childNodes.length == 0) {
+                            oShow.innerHTML = "<span>这里会显示留言内容</span>";
+                        }
+                    }
+                }
+                aP[i].onmouseout = function(){
+                    // this.style.background = 'lightgray';
+                    newNode2.style.display = 'none';
+                }
+                // aA[i].onclick = function(){
+                //     oShow.removeChild(oShow.children[i]);
+                // }
+            }
+        } else {
+            alert("请输入内容"); 
+        }
+    }
+
+    // for (var j=0;j<aA.length;j++) {
+    //     aA[j].onclick = function(){
+    //         this.parentNode.removeChild(this)
+    //     }
+    // }
+</script>
+</body>
+</html>

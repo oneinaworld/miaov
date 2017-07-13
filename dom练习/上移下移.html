@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    
+    </style>
+</head>
+<body>
+    <ul>
+        <li>1111111<button>上移</button><button>下移</button></li>
+        <li>2222222<button>上移</button><button>下移</button></li>
+        <li>3333333<button>上移</button><button>下移</button></li>
+        <li>4444444<button>上移</button><button>下移</button></li>
+        <li>5555555<button>上移</button><button>下移</button></li>
+    </ul>
+<script>
+    /*
+	上移下移
+				需求：
+					1）点击上移就将当前的按钮的父级上移一位
+					2）当点击第一个时候将当前按钮的父级移动到最后一位
+					3）当点击最后一个时候将当前按钮的父级移动到首位
+				跨展板：
+					移动时带动画
+    */
+    var oUl = document.getElementsByTagName('ul')[0];
+    var aLi = oUl.getElementsByTagName('li');
+    var aBtn = oUl.getElementsByTagName('button');
+    for (var i=0;i<aBtn.length;i+=2) {
+        // console.log(aBtn[i])
+        aBtn[i].onclick = function(){
+            var previousNode = this.parentNode.previousElementSibling;//要在removeChild前获取previousNode
+            var removed = oUl.removeChild(this.parentNode);
+            // console.log(previousNode)
+            oUl.insertBefore(removed, previousNode);
+        }
+    }
+    for (var i=1;i<aBtn.length;i+=2) {
+        aBtn[i].onclick = function(){
+            var nextNode = this.parentNode.nextElementSibling;
+            var removed = oUl.removeChild(this.parentNode);
+            // console.log(previousNode)
+            if (nextNode) {
+                insertAfter(removed, nextNode);
+            } else {
+                oUl.insertBefore(removed, oUl.children[0]);
+            }
+        }
+    }
+
+    function insertAfter(newNode, targetNode){
+        var parentNode = targetNode.parentNode;
+        if(parentNode.lastChild == targetNode){
+            parentNode.appendChild(newNode);
+        }else{
+            parentNode.insertBefore(newNode,targetNode.nextElementSibling);
+        }
+    }
+</script>
+</body>
+</html>

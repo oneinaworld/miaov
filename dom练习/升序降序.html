@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #container{width:100px;margin:0 auto;font-size: 50px;text-align: center;}
+    #div1{background: yellow;}
+    #div2{background: red;}
+    #div3{background: purple;}
+    #div4{background: blue;}
+    #div5{background: lightgray;}
+    button{width: 100px;height: 50px;font-size: 40px;margin:0 auto;display: block;}
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="div1">4</div>
+        <div id="div2">2</div>
+        <div id="div3">1</div>
+        <div id="div4">3</div>
+        <div id="div5">5</div>
+    </div><button>升序</button>
+<script>
+    /*需求：点升序时dom升序排列；点降序时降序。
+    */
+    var oCon = document.getElementById('container');
+    var aDiv = oCon.getElementsByTagName('div');
+    var oBtn = document.getElementsByTagName('button')[0];
+    var arr = [];
+
+    for (var i=0;i<aDiv.length;i++) {
+        aDiv[i].index = parseInt(aDiv[i].innerHTML);
+        // console.log(aDiv[i].index)
+    }
+
+    // console.log(arr)
+    oBtn.onclick = function(){
+        if (this.innerHTML == '升序') {
+            arr = [];
+            for (var i=0;i<5;i++) {
+                arr.push(oCon.removeChild(oCon.firstElementChild));
+            }
+            arr.sort(function(x, y){
+                return x.index - y.index;
+            })
+            for (var i=0;i<5;i++) {
+                oCon.appendChild(arr.shift());
+            }
+            this.innerHTML = '降序';
+        } else {
+            arr = [];
+            for (var i=0;i<5;i++) {
+                arr.push(oCon.removeChild(oCon.firstElementChild));
+            }
+            arr.sort(function(x, y){
+                return y.index - x.index;
+            })
+            for (var i=0;i<5;i++) {
+                oCon.appendChild(arr.shift());
+            }
+            this.innerHTML = '升序';
+        }
+    }
+    
+</script>
+</body>
+</html>
