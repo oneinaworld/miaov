@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#ul ul{display:none;}
+	</style>
+</head>
+<body>
+	<ul id="ul">
+		<li>
+			<h3>第一级菜单</h3>
+		</li>
+		<li>
+			<h3>第一级菜单</h3>
+			<ul>
+				<li><h3>第二级菜单</h3></li>
+				<li>
+					<h3>第二级菜单</h3>
+					<ul>
+						<li><h3>第三级菜单</h3></li>
+						<li><h3>第三级菜单</h3></li>
+						<li><h3>第三级菜单</h3></li>
+						<li><h3>第三级菜单</h3></li>
+						<li><h3>第三级菜单</h3></li>
+					</ul>
+				</li>
+				<li><h3>第二级菜单</h3></li>
+				<li><h3>第二级菜单</h3></li>
+				<li><h3>第二级菜单</h3></li>
+			</ul>
+		</li>
+		<li>
+			<h3>第一级菜单</h3>
+		</li>
+		<li>
+			<h3>第一级菜单</h3>
+		</li>
+		<li>
+			<h3>第一级菜单</h3>
+		</li>
+	</ul>
+<script>
+	/*
+	需求：
+					1.点击h3的时候如果h3下有ul就展开
+					2.点h3的时候，找到h3的父级的父级，通过父级的父级（ul）
+					    下去找父级的兄弟节点，把父级（li）排除，将父级的兄弟节点中的ul都关闭
+				扩展版：
+					通过数据渲染dom
+					点一下展开，再点一下关闭
+	*/
+	var oUl = document.getElementById('ul');
+	var aH3 = oUl.getElementsByTagName('h3');
+
+	for (var i = 0; i < aH3.length; i++) {
+		aH3[i].onclick = function(){
+			var ul = this.nextElementSibling;
+			if (ul && ul.style.display == 'none') {
+				ul.style.display = 'block';
+			} else {
+				ul.style.display = 'none';
+			}
+		}
+	}
+</script>
+</body>
+</html>
