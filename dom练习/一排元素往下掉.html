@@ -32,23 +32,25 @@
     	aDiv[i].onclick = function(){
     		var that1 = this;
     		var that2 = this;
-			doMove(this, 'top', 23, 500);
-			timer1 = setInterval(function(){
-				if (that1.previousElementSibling) {
-					doMove(that1.previousElementSibling, 'top', 23, 500)
-				} else {
-					clearInterval(timer1)
-				}
-					that1 = that1.previousElementSibling;
-			}, 100)
-			timer2 = setInterval(function(){
-				if (that2.nextElementSibling) {
-					doMove(that2.nextElementSibling, 'top', 23, 500)
-				} else {
-					clearInterval(timer2)
-				}
-					that2 = that2.nextElementSibling
-			}, 100)
+            if (this.offsetTop == 0) {
+                doMove(this, 'top', 23, 500);
+                timer1 = setInterval(function(){
+                    if (that1.previousElementSibling) {
+                        doMove(that1.previousElementSibling, 'top', 23, 500)
+                    } else {
+                        clearInterval(timer1)
+                    }
+                        that1 = that1.previousElementSibling;
+                }, 100)
+                timer2 = setInterval(function(){
+                    if (that2.nextElementSibling) {
+                        doMove(that2.nextElementSibling, 'top', 23, 500)
+                    } else {
+                        clearInterval(timer2)
+                    }
+                        that2 = that2.nextElementSibling
+                }, 100)
+            }
     	}
     }
 
