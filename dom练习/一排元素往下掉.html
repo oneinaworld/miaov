@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    	div{width: 50px;height: 50px;background: red;position: absolute;top: 0;}
+    </style>
+</head>
+<body>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+<script>
+/*需求：
+				点击当前元素，看看是否有上个兄弟节点或者下个兄弟节点，
+				如果有，就让他们依次下落（当前元素也会下落），否则就不用下落
+*/
+	var aDiv = document.getElementsByTagName('div');
+    for(var i=0;i<aDiv.length;i++){
+    	aDiv[i].style.left = 60*i + 'px';
+    	aDiv[i].index = i;
+    	aDiv[i].onclick = function(){
+    		var that1 = this;
+    		var that2 = this;
+			doMove(this, 'top', 23, 500);
+			timer1 = setInterval(function(){
+				if (that1.previousElementSibling) {
+					doMove(that1.previousElementSibling, 'top', 23, 500)
+				} else {
+					clearInterval(timer1)
+				}
+					that1 = that1.previousElementSibling;
+			}, 100)
+			timer2 = setInterval(function(){
+				if (that2.nextElementSibling) {
+					doMove(that2.nextElementSibling, 'top', 23, 500)
+				} else {
+					clearInterval(timer2)
+				}
+					that2 = that2.nextElementSibling
+			}, 100)
+    	}
+    }
+
+    function doMove(obj, attr, dir, target, endFn){
+    	dir = parseInt(getStyle(obj, attr)) < target ? dir : -dir;
+    	clearInterval(obj.timer);
+    	obj.timer = setInterval(function(){
+    		var speed = parseInt(getStyle(obj, attr)) + dir;
+    		if (speed > target && dir > 0 || speed < target && dir < 0) {
+    			speed = target;
+    		}
+    		obj.style[attr] = speed + 'px';
+    		if (speed == target) {
+    			clearInterval(obj.timer);
+    			endFn && endFn();
+    		}
+    	}, 30);
+    }
+    function getStyle(obj, attr){
+    	return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj)[attr];
+    }
+</script>
+</body>
+</html>
